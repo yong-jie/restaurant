@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create account</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form action="/signup" method="post">
+      Username:<br/>
+      <input type="text" name="username"/><br/>
+      Password:<br/>
+      <input type="password" name="password"/><br/>
+      Type:<br/>
+      <input type="radio" name="type" value="Diner" checked> Diner<br/>
+      <input type="radio" name="type" value="Owner"> Owner<br/>
+      <input type="radio" name="type" value="Admin"> Admin<br/>
+      <input type="submit" value="Submit"/>
+    </form>
+  </body>
+</html>
