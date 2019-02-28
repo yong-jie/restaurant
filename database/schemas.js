@@ -1,12 +1,7 @@
 const { Pool } = require("pg");
+const config = require("../config.js");
 
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
-  password: "",
-  port: 5432,
-});
+const pool = new Pool(config.pgConfig);
 
 const buildSchemas = async () => {
   // Delete User

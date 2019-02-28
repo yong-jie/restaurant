@@ -12,6 +12,7 @@ const pool = new Pool({
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
+  req.session.hello = 1;
   res.render("index", { title: "Express" });
 });
 
