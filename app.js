@@ -11,6 +11,8 @@ const config = require("./config.js");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var restaurantsRouter = require("./routes/restaurants");
+var reservationsRouter = require("./routes/reservations");
 
 var pgPool = new pg.Pool(config.pgConfig);
 var app = express();
@@ -39,7 +41,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/restaurants", restaurantsRouter);
+app.use("/reservations", reservationsRouter);
 app.use("/users", usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
