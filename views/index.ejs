@@ -7,6 +7,14 @@
   <body>
     <h1>Welcome, <%= username %></h1>
     <p>Your group is: <%= type %></p>
+    <br/>
+    <br/>
+    <% if (type === "Owners" || type === "Admins") { %>
+    <a href="/restaurants"><button>Manage Restaurants</button></a>
+    <% } %>
+    <% if (type === "Diners" || type === "Admins") { %>
+    <a href="/reservations"><button>Manage Reservations</button></a>
+    <% } %>
     <a href="/logout"><button>Log out</button></a>
   </body>
 </html>

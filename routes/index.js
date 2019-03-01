@@ -75,7 +75,7 @@ router.post("/signup", async (req, res, next) => {
     });
 
     // Then create specific ISA relationship row.
-    const type = req.body.type === "Diner" ? "diners" : req.body.type === "Admin" ? "admins" : "owners";
+    const type = req.body.type === "Diner" ? "Diners" : req.body.type === "Admin" ? "Admins" : "Owners";
     await new Promise((resolve, reject) => {
       pool.query(`INSERT INTO ${type} VALUES ('${req.body.username}')`, (err, data) => {
         if (err) return reject(err);
