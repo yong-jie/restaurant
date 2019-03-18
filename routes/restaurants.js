@@ -6,7 +6,7 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 router.get('/', function(req, res, next) {
-  var sql_query = 'SELECT * FROM restaurants';
+  var sql_query = 'SELECT * FROM sells natural join located natural join serves';
 	pool.query(sql_query, (err, data) => {
 		res.render('restaurants', { title: 'Participating Restaurants', data: data.rows });
 	});

@@ -4,7 +4,7 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 const buildSchemas = async () => {
-  // Delete User
+  // Delete Users
   await new Promise((resolve, reject) => {
     pool.query("drop table Users CASCADE", (err, data) => {
       if (err) return resolve(console.log("Users table does not exist."));
@@ -12,7 +12,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create User
+  // Create Users
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Users(username VARCHAR(40) primary key, password VARCHAR(40) not null)",
@@ -23,7 +23,7 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Diner
+  // Delete Diners
   await new Promise((resolve, reject) => {
     pool.query("drop table Diners", (err, data) => {
       if (err) return resolve(console.log("Diners table does not exist."));
@@ -31,7 +31,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create Diner
+  // Create Diners
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Diners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
@@ -42,7 +42,7 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Admin
+  // Delete Admins
   await new Promise((resolve, reject) => {
     pool.query("drop table Admins", (err, data) => {
       if (err) return resolve(console.log("Admins table does not exist."));
@@ -50,7 +50,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create Admin
+  // Create Admins
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Admins(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
@@ -61,7 +61,7 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Owner
+  // Delete Owners
   await new Promise((resolve, reject) => {
     pool.query("drop table Owners", (err, data) => {
       if (err) return resolve(console.log("Owners table does not exist."));
@@ -69,7 +69,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create Owner
+  // Create Owners
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Owners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
@@ -80,7 +80,7 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Restaurant
+  // Delete Restaurants
   await new Promise((resolve, reject) => {
     pool.query("drop table Restaurants", (err, data) => {
       if (err) return resolve(console.log("Restaurants table does not exist."));
@@ -88,7 +88,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create Restaurant
+  // Create Restaurants
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Restaurants(rname VARCHAR(40) primary key)",
@@ -98,8 +98,8 @@ const buildSchemas = async () => {
       },
     );
   });  
-
-  // Delete Area
+  
+  // Delete Areas
   await new Promise((resolve, reject) => {
     pool.query("drop table Areas", (err, data) => {
       if (err) return resolve(console.log("Areas table does not exist."));
@@ -107,7 +107,7 @@ const buildSchemas = async () => {
     });
   });
 
-  // Create Area
+  // Create Areas
   await new Promise((resolve, reject) => {
     pool.query(
       "create table Areas(aname VARCHAR(40) primary key)",
@@ -139,6 +139,87 @@ const buildSchemas = async () => {
       },
     );
   });  
+
+  // Delete Food
+  await new Promise((resolve, reject) => {
+    pool.query("drop table Food", (err, data) => {
+      if (err) return resolve(console.log("Food table does not exist."));
+      return resolve(console.log("Deleted Food table"));
+    });
+  });
+
+  // Create Food
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table Food(fname VARCHAR(40) primary key)",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Food table"));
+        return resolve(console.log("Created Food table"));
+      },
+    );
+  });
+  
+  // Delete Sells
+  await new Promise((resolve, reject) => {
+    pool.query("drop table Sells", (err, data) => {
+      if (err) return resolve(console.log("Sells table does not exist."));
+      return resolve(console.log("Deleted Sells table"));
+    });
+  });
+
+  // Create Sells
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table Sells(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ",fname VARCHAR(40) references Food(fname) on delete CASCADE"
+      + ",primary key (rname, fname))",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Sells table"));
+        return resolve(console.log("Created Sells table"));
+      },
+    );
+  });    
+
+  // Delete Cuisines
+  await new Promise((resolve, reject) => {
+    pool.query("drop table Cuisines", (err, data) => {
+      if (err) return resolve(console.log("Cuisines table does not exist."));
+      return resolve(console.log("Deleted Cuisines table"));
+    });
+  });
+
+  // Create Cuisines
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table Cuisines(cname VARCHAR(40) primary key)",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Cuisines table"));
+        return resolve(console.log("Created Cuisines table"));
+      },
+    );
+  });  
+
+  // Delete Serves
+  await new Promise((resolve, reject) => {
+    pool.query("drop table Serves", (err, data) => {
+      if (err) return resolve(console.log("Serves table does not exist."));
+      return resolve(console.log("Deleted Serves table"));
+    });
+  });
+
+  // Create Serves
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table Serves(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ",cname VARCHAR(40) references Cuisines(cname) on delete CASCADE"
+      + ",primary key (rname, cname))",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Serves table"));
+        return resolve(console.log("Created Serves table"));
+      },
+    );
+  });  
+
 };
 
 buildSchemas();
