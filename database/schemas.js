@@ -97,8 +97,8 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Restaurants table"));
       },
     );
-  });  
-  
+  });
+
   // Delete Areas
   await new Promise((resolve, reject) => {
     pool.query("drop table Areas", (err, data) => {
@@ -116,7 +116,7 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Areas table"));
       },
     );
-  });  
+  });
 
   // Delete Located
   await new Promise((resolve, reject) => {
@@ -138,7 +138,7 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Located table"));
       },
     );
-  });  
+  });
 
   // Delete Food
   await new Promise((resolve, reject) => {
@@ -158,7 +158,7 @@ const buildSchemas = async () => {
       },
     );
   });
-  
+
   // Delete Sells
   await new Promise((resolve, reject) => {
     pool.query("drop table Sells", (err, data) => {
@@ -178,7 +178,7 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Sells table"));
       },
     );
-  });    
+  });
 
   // Delete Cuisines
   await new Promise((resolve, reject) => {
@@ -197,7 +197,7 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Cuisines table"));
       },
     );
-  });  
+  });
 
   // Delete Serves
   await new Promise((resolve, reject) => {
@@ -218,7 +218,7 @@ const buildSchemas = async () => {
         return resolve(console.log("Created Serves table"));
       },
     );
-  });  
+  });
 
 };
 
