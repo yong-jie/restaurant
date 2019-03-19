@@ -219,6 +219,32 @@ const buildSchemas = async () => {
       },
     );
   });
+  
+  // Delete Reservations
+  await new Promise((resolve, reject) => {
+    pool.query("drop table Reservations", (err, data) => {
+      if (err) return resolve(console.log("Reservations table does not exist."));
+      return resolve(console.log("Deleted Reservations table"));
+    });
+  });
+
+  // Create Reservations
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table Reservations(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ",username VARCHAR(40) references diners(username) on delete CASCADE"
+      + ",numPax integer"
+      + ",confirmed boolean"
+      + ",amount numeric(4,2)"
+      + ",startTime integer"
+      + ",endTime integer"
+      + ",primary key (rname, username))",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Reservations table"));
+        return resolve(console.log("Created Reservations table"));
+      },
+    );
+  }); 
 
 };
 
