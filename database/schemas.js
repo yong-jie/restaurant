@@ -269,6 +269,29 @@ const buildSchemas = async () => {
     );
   });  
 
+  // Delete RestaurantPromos
+  await new Promise((resolve, reject) => {
+    pool.query("drop table RestaurantPromos", (err, data) => {
+      if (err) return resolve(console.log("RestaurantPromos table does not exist."));
+      return resolve(console.log("Deleted RestaurantPromos table"));
+    });
+  });
+
+  // Create RestaurantPromos
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "create table RestaurantPromos(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ",sdate date"
+      + ",edate date"
+      + ",discount int not null"
+      + ",primary key(rname, sdate, edate))",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating RestaurantPromos table"));
+        return resolve(console.log("Created RestaurantPromos table"));
+      },
+    );
+  });  
+
 };
 
 buildSchemas();
