@@ -269,6 +269,7 @@ const buildSchemas = async () => {
     );
   });  
 
+
   // Delete RestaurantPromos
   await new Promise((resolve, reject) => {
     pool.query("drop table RestaurantPromos", (err, data) => {
