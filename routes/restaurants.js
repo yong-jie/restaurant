@@ -17,12 +17,10 @@ const defaultQuery = 'SELECT L.rname as rname, L.aname as aname, L.address as ad
 + ' FROM Located L natural join Serves S';
 const defaultOrder = orderNameAsc;
 
-var prevOrder = defaultOrder;
 var prevQuery = defaultQuery;
 
 function render(req, res, next, sql_query_display, sql_query_order) {
 	prevQuery = sql_query_display;
-	prevOrder = sql_query_order;
 
 	sql_query_display += sql_query_order;
 
@@ -35,9 +33,15 @@ function render(req, res, next, sql_query_display, sql_query_order) {
 }
 
 router.get('/search', function(req, res, next) {
-	var restaurant = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
+	var newQuery = '';
 
-	var newQuery = defaultQuery + ' WHERE lower(L.rname) LIKE' + restaurant;
+	if (req.query.rname == '') {
+		newQuery = prevQuery;
+	} else {
+		var restaurant = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
+		newQuery = defaultQuery + ' WHERE lower(L.rname) LIKE' + restaurant;
+	}
+
 	var newOrder = '';
 
 	if (req.query.order == 'nameAsc') {
