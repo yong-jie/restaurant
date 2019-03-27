@@ -10,11 +10,11 @@ router.get('/search', function(req, res, next) {
 	var restaurant = "%" + req.query.rname.toLowerCase() + "%";
 	var sql_query_display = 'SELECT L.rname as rname, L.aname as aname, L.address as address, S.cname as cname,'
 	+ ' COALESCE((SELECT AVG(score) FROM rates where rname = L.rname), 0) AS score'
-	+ ' FROM located L natural join serves S'
+	+ ' FROM Located L natural join Serves S'
 	+ ' WHERE lower(L.rname) LIKE $1'
 	+ ' ORDER BY score DESC';
 	var sql_query_count = 'SELECT count(*)'
-	+ ' FROM located L natural join serves S';
+	+ ' FROM Located L natural join Serves S';
 	pool.query(sql_query_count, (err, data) => {
 		total_restaurants = data.rows;
 		pool.query(sql_query_display, [restaurant], (err, data) => {
@@ -27,10 +27,10 @@ router.get('/', function(req, res, next) {
 	var total_restaurants = 0;
 	var sql_query_display = 'SELECT L.rname as rname, L.aname as aname, L.address as address, S.cname as cname,'
 	+ ' COALESCE((SELECT AVG(score) FROM rates where rname = L.rname), 0) AS score'
-	+ ' FROM located L natural join serves S'
+	+ ' FROM Located L natural join Serves S'
 	+ ' ORDER BY score DESC';
 	var sql_query_count = 'SELECT count(*)'
-	+ ' FROM located L natural join serves S';
+	+ ' FROM Located L natural join Serves S';
 	pool.query(sql_query_count, (err, data) => {
 		total_restaurants = data.rows;
 		pool.query(sql_query_display, (err, data) => {
