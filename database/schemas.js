@@ -6,7 +6,7 @@ const pool = new Pool(config.pgConfig);
 const buildSchemas = async () => {
   // Delete Users
   await new Promise((resolve, reject) => {
-    pool.query("drop table Users CASCADE", (err, data) => {
+    pool.query("DROP TABLE Users CASCADE", (err, data) => {
       if (err) return resolve(console.log("Users table does not exist."));
       return resolve(console.log("Deleted Users table"));
     });
@@ -15,7 +15,7 @@ const buildSchemas = async () => {
   // Create Users
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Users(username VARCHAR(40) primary key, password VARCHAR(40) not null)",
+      "CREATE TABLE Users(username VARCHAR(40) primary key, password VARCHAR(40) not null)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Users table"));
         return resolve(console.log("Created Users table"));
@@ -25,7 +25,7 @@ const buildSchemas = async () => {
 
   // Delete Diners
   await new Promise((resolve, reject) => {
-    pool.query("drop table Diners", (err, data) => {
+    pool.query("DROP TABLE Diners", (err, data) => {
       if (err) return resolve(console.log("Diners table does not exist."));
       return resolve(console.log("Deleted Diners table"));
     });
@@ -34,7 +34,7 @@ const buildSchemas = async () => {
   // Create Diners
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Diners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
+      "CREATE TABLE Diners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Diners table"));
         return resolve(console.log("Created Diners table"));
@@ -44,7 +44,7 @@ const buildSchemas = async () => {
 
   // Delete Admins
   await new Promise((resolve, reject) => {
-    pool.query("drop table Admins", (err, data) => {
+    pool.query("DROP TABLE Admins", (err, data) => {
       if (err) return resolve(console.log("Admins table does not exist."));
       return resolve(console.log("Deleted Admins table"));
     });
@@ -53,7 +53,7 @@ const buildSchemas = async () => {
   // Create Admins
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Admins(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
+      "CREATE TABLE Admins(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
       (err, data) => {
         if (err) return resolve(console.log(err)); //"Error creating Admins table"));
         return resolve(console.log("Created Admins table"));
@@ -63,7 +63,7 @@ const buildSchemas = async () => {
 
   // Delete Owners
   await new Promise((resolve, reject) => {
-    pool.query("drop table Owners", (err, data) => {
+    pool.query("DROP TABLE Owners", (err, data) => {
       if (err) return resolve(console.log("Owners table does not exist."));
       return resolve(console.log("Deleted Owners table"));
     });
@@ -72,7 +72,7 @@ const buildSchemas = async () => {
   // Create Owners
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Owners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
+      "CREATE TABLE Owners(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Owners table"));
         return resolve(console.log("Created Owners table"));
@@ -82,7 +82,7 @@ const buildSchemas = async () => {
 
   // Delete Restaurants
   await new Promise((resolve, reject) => {
-    pool.query("drop table Restaurants", (err, data) => {
+    pool.query("DROP TABLE Restaurants", (err, data) => {
       if (err) return resolve(console.log("Restaurants table does not exist."));
       return resolve(console.log("Deleted Restaurants table"));
     });
@@ -91,7 +91,7 @@ const buildSchemas = async () => {
   // Create Restaurants
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Restaurants(rname VARCHAR(40) primary key)",
+      "CREATE TABLE Restaurants(rname VARCHAR(40) primary key)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Restaurants table"));
         return resolve(console.log("Created Restaurants table"));
@@ -101,7 +101,7 @@ const buildSchemas = async () => {
 
   // Delete Areas
   await new Promise((resolve, reject) => {
-    pool.query("drop table Areas", (err, data) => {
+    pool.query("DROP TABLE Areas", (err, data) => {
       if (err) return resolve(console.log("Areas table does not exist."));
       return resolve(console.log("Deleted Areas table"));
     });
@@ -110,7 +110,7 @@ const buildSchemas = async () => {
   // Create Areas
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Areas(aname VARCHAR(40) primary key)",
+      "CREATE TABLE Areas(aname VARCHAR(40) primary key)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Areas table"));
         return resolve(console.log("Created Areas table"));
@@ -120,7 +120,7 @@ const buildSchemas = async () => {
 
   // Delete Located
   await new Promise((resolve, reject) => {
-    pool.query("drop table Located", (err, data) => {
+    pool.query("DROP TABLE Located", (err, data) => {
       if (err) return resolve(console.log("Located table does not exist."));
       return resolve(console.log("Deleted Located table"));
     });
@@ -129,7 +129,7 @@ const buildSchemas = async () => {
   // Create Located
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Located(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      "CREATE TABLE Located(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ",aname VARCHAR(40) references Areas(aname) on delete CASCADE"
       + ",address VARCHAR(40)"
       + ",primary key (rname, aname))",
@@ -142,7 +142,7 @@ const buildSchemas = async () => {
 
   // Delete Food
   await new Promise((resolve, reject) => {
-    pool.query("drop table Food", (err, data) => {
+    pool.query("DROP TABLE Food", (err, data) => {
       if (err) return resolve(console.log("Food table does not exist."));
       return resolve(console.log("Deleted Food table"));
     });
@@ -151,7 +151,7 @@ const buildSchemas = async () => {
   // Create Food
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Food(fname VARCHAR(40) primary key)",
+      "CREATE TABLE Food(fname VARCHAR(40) primary key)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Food table"));
         return resolve(console.log("Created Food table"));
@@ -161,7 +161,7 @@ const buildSchemas = async () => {
 
   // Delete Sells
   await new Promise((resolve, reject) => {
-    pool.query("drop table Sells", (err, data) => {
+    pool.query("DROP TABLE Sells", (err, data) => {
       if (err) return resolve(console.log("Sells table does not exist."));
       return resolve(console.log("Deleted Sells table"));
     });
@@ -170,7 +170,7 @@ const buildSchemas = async () => {
   // Create Sells
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Sells(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      "CREATE TABLE Sells(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ",fname VARCHAR(40) references Food(fname) on delete CASCADE"
       + ",primary key (rname, fname))",
       (err, data) => {
@@ -182,7 +182,7 @@ const buildSchemas = async () => {
 
   // Delete Cuisines
   await new Promise((resolve, reject) => {
-    pool.query("drop table Cuisines", (err, data) => {
+    pool.query("DROP TABLE Cuisines", (err, data) => {
       if (err) return resolve(console.log("Cuisines table does not exist."));
       return resolve(console.log("Deleted Cuisines table"));
     });
@@ -191,7 +191,7 @@ const buildSchemas = async () => {
   // Create Cuisines
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Cuisines(cname VARCHAR(40) primary key)",
+      "CREATE TABLE Cuisines(cname VARCHAR(40) primary key)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Cuisines table"));
         return resolve(console.log("Created Cuisines table"));
@@ -201,7 +201,7 @@ const buildSchemas = async () => {
 
   // Delete Serves
   await new Promise((resolve, reject) => {
-    pool.query("drop table Serves", (err, data) => {
+    pool.query("DROP TABLE Serves", (err, data) => {
       if (err) return resolve(console.log("Serves table does not exist."));
       return resolve(console.log("Deleted Serves table"));
     });
@@ -210,7 +210,7 @@ const buildSchemas = async () => {
   // Create Serves
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Serves(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      "CREATE TABLE Serves(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ",cname VARCHAR(40) references Cuisines(cname) on delete CASCADE"
       + ",primary key (rname, cname))",
       (err, data) => {
@@ -222,7 +222,7 @@ const buildSchemas = async () => {
   
   // Delete Reservations
   await new Promise((resolve, reject) => {
-    pool.query("drop table Reservations", (err, data) => {
+    pool.query("DROP TABLE Reservations", (err, data) => {
       if (err) return resolve(console.log("Reservations table does not exist."));
       return resolve(console.log("Deleted Reservations table"));
     });
@@ -231,14 +231,14 @@ const buildSchemas = async () => {
   // Create Reservations
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Reservations(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      "CREATE TABLE Reservations(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ",username VARCHAR(40) references Diners(username) on delete CASCADE"
-      + ",numPax integer"
-      + ",confirmed boolean"
-      + ",amount numeric(4,2)"
-      + ",startTime integer"
-      + ",endTime integer"
-      + ",primary key (rname, username))",
+      + ",numPax INTEGER"
+      + ",confirmed BOOLEAN"
+      + ",amount NUMERIC(4,2)"
+      + ",startTime INTEGER"
+      + ",endTime INTEGER"
+      + ",PRIMARY KEY (rname, username))",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Reservations table"));
         return resolve(console.log("Created Reservations table"));
@@ -248,7 +248,7 @@ const buildSchemas = async () => {
 
   // Delete Rates
   await new Promise((resolve, reject) => {
-    pool.query("drop table Rates", (err, data) => {
+    pool.query("DROP TABLE Rates", (err, data) => {
       if (err) return resolve(console.log("Rates table does not exist."));
       return resolve(console.log("Deleted Rates table"));
     });
@@ -257,11 +257,11 @@ const buildSchemas = async () => {
   // Create Rates
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table Rates(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
-      + ",username VARCHAR(40) references Diners(username) on delete CASCADE"
-      + ",comment VARCHAR(40)"
-      + ",score real not null"
-      + ",primary key (rname, username))",
+      "CREATE TABLE Rates(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ", username VARCHAR(40) references Diners(username) on delete CASCADE"
+      + ", comment VARCHAR(40)"
+      + ", score REAL not null"
+      + ", PRIMARY KEY (rname, username))",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Rates table"));
         return resolve(console.log("Created Rates table"));
@@ -272,7 +272,7 @@ const buildSchemas = async () => {
 
   // Delete RestaurantPromos
   await new Promise((resolve, reject) => {
-    pool.query("drop table RestaurantPromos", (err, data) => {
+    pool.query("DROP TABLE RestaurantPromos", (err, data) => {
       if (err) return resolve(console.log("RestaurantPromos table does not exist."));
       return resolve(console.log("Deleted RestaurantPromos table"));
     });
@@ -281,11 +281,11 @@ const buildSchemas = async () => {
   // Create RestaurantPromos
   await new Promise((resolve, reject) => {
     pool.query(
-      "create table RestaurantPromos(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
-      + ",sdate date"
-      + ",edate date"
-      + ",discount int not null"
-      + ",primary key(rname, sdate, edate))",
+      "CREATE TABLE RestaurantPromos(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ", sdate DATE"
+      + ", edate DATE"
+      + ", discount INTEGER not null"
+      + ", PRIMARY KEY(rname, sdate, edate))",
       (err, data) => {
         if (err) return resolve(console.log("Error creating RestaurantPromos table"));
         return resolve(console.log("Created RestaurantPromos table"));
