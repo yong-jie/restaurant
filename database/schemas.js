@@ -293,6 +293,27 @@ const buildSchemas = async () => {
     );
   });
 
+  // Delete Owns
+  await new Promise((resolve, reject) => {
+    pool.query("DROP TABLE Owns", (err, data) => {
+      if (err) return resolve(console.log("Owns table does not exist."));
+      return resolve(console.log("Deleted Owns table"));
+    });
+  });
+
+  // Create Owns
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TABLE Owns(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
+      + ",username VARCHAR(40) references Owners(username) on delete CASCADE"
+      + ",primary key (rname, username))",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating Owns table"));
+        return resolve(console.log("Created Owns table"));
+      },
+    );
+  });  
+
 };
 
 buildSchemas();

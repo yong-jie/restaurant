@@ -15,17 +15,44 @@
   </head>
   <body>
 		<%- include navbar.ejs %>
-    <h1><%= title%></h1>
+		<h1><%= title%></h1>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Total Earnings</h5>
+						<p class="card-text">$<%= earnings[0].amount%></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Average Score</h5>
+						<p class="card-text"><%= avgscore[0].score%></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h2>Reservations</h2>
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Restaurants</th>
+					<th scope="col">Starting Date and Time</th>
+					<th scope="col">Ending Date and Time</th>
+					<th scope="col">Number of PAX</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Confirmed</th>
 				</tr>
 			</thead>
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr>
-					<td><%= data[i].rname%></td>
+					<td><%= data[i].starttime%></td>
+					<td><%= data[i].endtime%></td>
+					<td><%= data[i].numpax%></td>
+					<td><%= "$"+data[i].amount%></td>
+					<td><%= data[i].confirmed%></td>
 				</tr>
 				<% } %>
 			</tbody>
