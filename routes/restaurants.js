@@ -5,16 +5,17 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
-const countQuery = 'SELECT count(*) FROM Located L natural join Serves S';
+const countQuery = 'SELECT count(*) FROM RestaurantAreas';
 
 const orderNameAsc = ' ORDER BY rname ASC';
 const orderNameDesc = ' ORDER BY rname DESC';
 const orderScoreAsc = ' ORDER BY score ASC';
 const orderScoreDesc = ' ORDER BY score DESC';
 
-const defaultQuery = 'SELECT L.rname as rname, L.aname as aname, L.address as address, S.cname as cname,'
-+ ' COALESCE((SELECT AVG(score) FROM rates where rname = L.rname), 0) AS score'
-+ ' FROM Located L natural join Serves S';
+const defaultQuery = 'SELECT RA.rname as rname, S.cname as cname, RA.aname as aname, RA.address as address,'
++ ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname), 0) as score,'
++ ' RA.startTime as start, RA.endTime as end'
++ ' FROM RestaurantAreas RA natural join Serves S';
 const defaultOrder = orderNameAsc;
 
 var prevQuery = defaultQuery;
@@ -39,7 +40,7 @@ router.get('/search', function(req, res, next) {
 		newQuery = prevQuery;
 	} else {
 		var restaurant = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
-		newQuery = defaultQuery + ' WHERE lower(L.rname) LIKE' + restaurant;
+		newQuery = defaultQuery + ' WHERE lower(RA.rname) LIKE' + restaurant;
 	}
 
 	var newOrder = '';
