@@ -13,7 +13,7 @@ const orderScoreAsc = ' ORDER BY score ASC';
 const orderScoreDesc = ' ORDER BY score DESC';
 
 const defaultQuery = 'SELECT RA.rname as rname, S.cname as cname, RA.aname as aname, RA.address as address,'
-+ ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname), 0) as score,'
++ ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname and aname = RA.aname), 0) as score,'
 + ' RA.startTime as start, RA.endTime as end'
 + ' FROM RestaurantAreas RA natural join Serves S';
 const defaultOrder = orderNameAsc;

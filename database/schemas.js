@@ -154,7 +154,7 @@ const buildSchemas = async () => {
       + ", address VARCHAR(40) NOT NULL"
       + ", startTime TIME NOT NULL"
       + ", endTime TIME NOT NULL"      
-      + ", PRIMARY KEY (aname, rname))",
+      + ", PRIMARY KEY (rname, aname))",
       (err, data) => {
         if (err) return resolve(console.log("Error creating RestaurantAreas table"));
         return resolve(console.log("Created RestaurantAreas table"));
