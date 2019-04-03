@@ -21,9 +21,8 @@
 					<th scope="col">Restaurant Name</th>
 					<th scope="col">Outlet</th>
 					<th scope="col">Username</th>
-					<th scope="col">Number of People</th>
-					<th scope="col">Confirmed Booking?</th>
-					<th scope="col">Date and Time</th>
+					<th scope="col">Comments</th>
+					<th scope="col">Score</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,9 +31,8 @@
 					<td><%= data[i].rname%></td>
 					<td><%= data[i].aname%></td>
 					<td><%= data[i].username%></td>
-					<td><%= data[i].numpax%></td>
-					<td><%= data[i].confirmed%></td>
-					<td><%= data[i].dt%></td>
+					<td><%= data[i].comment%></td>
+					<td><%= data[i].score%></td>
 				</tr>
 				<% } %>
 			</tbody>

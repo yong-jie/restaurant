@@ -6,9 +6,9 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 router.get('/', function(req, res, next) {
-  var sql_query = 'SELECT rname,aname,username,confirmed,numPax,amount,dateTime as dt FROM reserves';
+  var sql_query = 'SELECT * FROM rates';
 	pool.query(sql_query, (err, data) => {
-		res.render('reservations', { title: 'List of Reservations', data: data.rows });
+		res.render('ratings', { title: 'List of Reservations rating', data: data.rows });
 	});
 });
 
