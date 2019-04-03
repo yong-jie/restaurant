@@ -19,22 +19,24 @@
 			<thead>
 				<tr>
 					<th scope="col">Restaurant Name</th>
-					<th scope="col">Outlet</th>
 					<th scope="col">Username</th>
 					<th scope="col">Number of People</th>
 					<th scope="col">Confirmed Booking?</th>
-					<th scope="col">Date and Time</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Start Time</th>
+					<th scope="col">End Time</th>
 				</tr>
 			</thead>
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr>
 					<td><%= data[i].rname%></td>
-					<td><%= data[i].aname%></td>
 					<td><%= data[i].username%></td>
 					<td><%= data[i].numpax%></td>
 					<td><%= data[i].confirmed%></td>
-					<td><%= data[i].dt%></td>
+					<td><%= "$"+data[i].amount%></td>
+					<td><%= data[i].starttime%></td>
+					<td><%= data[i].endtime%></td>
 				</tr>
 				<% } %>
 			</tbody>

@@ -4,7 +4,8 @@ function check(event) {
 	var rname    = document.getElementById('rname'   ).value;
 	var numPax = document.getElementById('numPax').value;
 	var amount = document.getElementById('amount').value;
-	var DateTime = document.getElementById('DateTime').value;
+	var startTime = document.getElementById('startTime').value;
+	var endTime = document.getElementById('endTime').value;
 	//regex for currency
 	var regex  = /^\d+(?:\.\d{0,2})$/;
 	
@@ -29,6 +30,24 @@ function check(event) {
 	}
 	if (!regex.test(amount)) {
 		alert("Invalid amount");
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+	if (startTime<=0 | startTime%100>=60) {
+		alert("Start time must be between 0000 and 2359");
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+	if (endTime<=1 | endTime%100>=60) {
+		alert("End time must be between 0001 and 2359");
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+	if (endTime<=startTime) {
+		alert("End time cannot be earlier than Start time!");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
