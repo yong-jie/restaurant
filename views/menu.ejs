@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-    <head>
+ <head>
 		<!-- Page Title -->
     <title>Restaurants</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -11,11 +10,10 @@
 
 		<!-- JavaScript for Interactivity -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    </head>
-
-    <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </head>
+  <body>
 		<form class="form my-2 my-lg-0" action="/menu/search">
 			<input class="form-control mr-sm-2" placeholder="Search restaurant..." type="text" aria-label="Search" name ="rname">
 
@@ -27,8 +25,8 @@
 			<div class="form-group">
 			    <input class="form-check-input" type="radio" name="order" value="nameDesc">
   		 	    <label class="form-check-label" for="order"> Restaurant Name Descending</label>
-            </div>
-            
+			</div>
+
 
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
@@ -36,14 +34,14 @@
 		<blockquote class="blockquote text-center">
 			<p class="mb-0">In total, there are <%= total[0].count%> distinct types of food.</p>
         </blockquote>
-         
+        
+        
     <h1><%= title%></h1>
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">Restaurants</th>
-					<th scope="col">Food Names</th>	
-					<th scope="col">Cuisines</th>			
+					<th scope="col">Food Names</th>				
 					<th scope="col">Prices</th>
 				</tr>
 			</thead>
@@ -52,12 +50,10 @@
 				<tr>
 					<td><%= data[i].rname%></td>
 					<td><%= data[i].fname%></td>
-					<td><%= data[i].cname%></td>
 					<td>$<%= data[i].price%></td>
 				</tr>
 				<% } %>
 			</tbody>
 		</table>
-    </body>
-
+  </body>
 </html>
