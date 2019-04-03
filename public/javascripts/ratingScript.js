@@ -2,11 +2,10 @@ function check(event) {
 	// Get Values
 	var username  = document.getElementById('username' ).value;
 	var rname    = document.getElementById('rname'   ).value;
-	var numPax = document.getElementById('numPax').value;
-	var amount = document.getElementById('amount').value;
-	var DateTime = document.getElementById('DateTime').value;
-	//regex for currency
-	var regex  = /^\d+(?:\.\d{0,2})$/;
+	var aname    = document.getElementById('aname'   ).value;
+	var comment = document.getElementById('comment').value;
+    var score = document.getElementById('score').value;
+
 	
 	// Simple Check
 	if(username.length == 0) {
@@ -20,15 +19,9 @@ function check(event) {
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
-	}
-	if(numPax <= 0) {
-		alert("Invalid number of people");
-		event.preventDefault();
-		event.stopPropagation();
-		return false;
-	}
-	if (!regex.test(amount)) {
-		alert("Invalid amount");
+    }
+    if(aname.length == 0) {
+		alert("Invalid rname");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;

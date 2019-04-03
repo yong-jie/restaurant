@@ -14,11 +14,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 		<!-- ADDED JavaScript -->
-		<script src="javascripts/insertScript.js"></script>
+		<script src="javascripts/ratingScript.js"></script>
   </head>
   <body>
-    <h1>Booking a <%= title%></h1>
-		<form id="html_form" action="insert" role="form" method="post">
+    <h1>Rating a <%= title%></h1>
+		<form id="html_form" action="rates" role="form" method="post">
 			<div class="form-group">
 				<label for="username">Username</label>
         <input type="VARCHAR(40)" class="form-control" id="username" name="username" placeholder="Enter your username">
@@ -32,23 +32,26 @@
 				<input type="VARCHAR(40)" class="form-control" id="aname" name="aname" placeholder="Enter the outlet area">
 			</div>
 			<div class="form-group">
-				<label for="numPax">Number of People</label>
-				<input type="numeric" class="form-control" id="numPax" name="numPax" placeholder="Enter the number of people">
+				<label for="comment">Comment</label>
+                <textarea type="VARCHAR(400)" class="form-control" id="comment" name="comment" placeholder="Any comments/feedbacks?" rows="4"></textarea>
 			</div>
-			<div class="form-group">
-				<label for="confirmed">confirmed</label>
-        <select name="confirmed">
-          <option value="true">True</option>
-          <option value="false">False</option>
-        </select>
-      </div>
-			<div class="form-group">
-				<label for="dateTime">Start Time</label>
-				<input type="integer" class="form-control" id="dateTime" name="dateTime" placeholder="Enter the Date and Time in this format: YYYY-MM-DD HR-MIN-SEC">
-			</div>
+            <div class="form-group">
+				<label for="score">Score</label>
+                <select name="score">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
-		
 		<script>
 			(function() {
 				window.addEventListener('load', function() {

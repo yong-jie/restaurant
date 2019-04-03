@@ -226,7 +226,7 @@ const buildSchemas = async () => {
       + ", numPax INTEGER NOT NULL"
       + ", confirmed BOOLEAN NOT NULL"
       + ", amount NUMERIC(5,2)"
-      + ", DateTime TIMESTAMP NOT NULL"
+      + ", dateTime TIMESTAMP NOT NULL"
       + ", PRIMARY KEY (rname, aname, username)"
       + ", FOREIGN KEY (rname, aname) references RestaurantAreas on delete CASCADE)",    
       (err, data) => {
