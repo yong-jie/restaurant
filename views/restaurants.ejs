@@ -14,7 +14,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   </head>
   <body>
-		<form class="form my-2 my-lg-0" action="/restaurants/search">
+		<%- include navbar.ejs %>
+		<form class="form-inline my-2 my-lg-0" action="/restaurants/search">
 			<input class="form-control mr-sm-2" placeholder="Search restaurant..." type="text" aria-label="Search" name ="rname">
 
 			<div class="form-group">
@@ -40,7 +41,6 @@
 
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
-
 		<blockquote class="blockquote text-center">
 			<p class="mb-0">In total, there are <%= total[0].count%> outlets participating.</p>
 		</blockquote>
