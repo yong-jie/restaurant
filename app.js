@@ -18,6 +18,7 @@ var promosRouter = require("./routes/promos");
 var recommendRouter = require("./routes/recommend");
 var managementRouter = require("./routes/management");
 var menuRouter = require("./routes/menu");
+var dashboardRouter = require("./routes/dashboard");
 
 var pgPool = new pg.Pool(config.pgConfig);
 var app = express();
@@ -54,6 +55,7 @@ app.use("/promos", promosRouter);
 app.use("/recommend", recommendRouter);
 app.use("/management", managementRouter);
 app.use("/menu", menuRouter);
+app.use("/dashboard", dashboardRouter);
 
 
 // catch 404 and forward to error handler
