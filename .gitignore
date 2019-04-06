@@ -48,3 +48,6 @@ flycheck_*.el
 
 # Tern
 .tern-port
+
+# Node modules
+/node_modules/
