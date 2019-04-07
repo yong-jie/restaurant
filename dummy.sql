@@ -111,23 +111,26 @@ VALUES ('efgh', 'abcd');
 
 
 -- RestaurantAreas
-INSERT INTO RestaurantAreas (rname, aname, address)
-VALUES ('MacDonalds', 'Orchard', '1 Scotts Road Singapore 228208');
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('MacDonalds', 'Orchard', '1 Scotts Road Singapore 228208', '09:00', '21:00');
 
-INSERT INTO RestaurantAreas (rname, aname, address)
-VALUES ('KFC', 'Orchard', '2 Scotts Road Singapore 228208');
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('KFC', 'Orchard', '2 Scotts Road Singapore 228208', '09:00', '20:00');
 
-INSERT INTO RestaurantAreas (rname, aname, address)
-VALUES ('KFC', 'Raffles Place', '1 Travis Road Singapore 229209');
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('KFC', 'Raffles Place', '1 Travis Road Singapore 229209', '08:00', '21:00');
 
 -- RestaurantAreas: should fail, does not exist in Restaurants
-INSERT INTO RestaurantAreas (rname, aname, address)
-VALUES ('abcd', 'Raffles Place', '1 Travis Road Singapore 229209');
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('abcd', 'Raffles Place', '1 Travis Road Singapore 229209', '09:00', '21:00');
 
 -- RestaurantAreas: should fail, duplicate (rname, aname)
-INSERT INTO RestaurantAreas (rname, aname, address)
-VALUES ('KFC', 'Raffles Place', '3 Travis Road Singapore 229209');
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('KFC', 'Raffles Place', '3 Travis Road Singapore 229209', '09:00', '21:00');
 
+-- RestaurantAreas: should fail, invalid time
+INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime)
+VALUES ('KFC', 'Raffles Place', '3 Travis Road Singapore 229209', '21:00', '09:00');
 
 -- Sells
 INSERT INTO Sells (rname, fname, price)
