@@ -154,7 +154,7 @@ const buildSchemas = async () => {
       "CREATE TABLE RestaurantAreas(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ", aname VARCHAR(40)"      
       + ", address VARCHAR(40) NOT NULL"     
-      + ", PRIMARY KEY (rname, aname)"
+      + ", PRIMARY KEY (rname, aname)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating RestaurantAreas table"));
         return resolve(console.log("Created RestaurantAreas table"));
