@@ -132,7 +132,6 @@ const buildSchemas = async () => {
   await new Promise((resolve, reject) => {
     pool.query(
       "CREATE TABLE Food(fname VARCHAR(40) primary key"
-      + ", price NUMERIC(5,2) NOT NULL"
       + ", cname VARCHAR(40) NOT NULL references Cuisines(cname) on delete CASCADE)",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Food table"));
@@ -179,6 +178,7 @@ const buildSchemas = async () => {
     pool.query(
       "CREATE TABLE Sells(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ", fname VARCHAR(40) references Food(fname) on delete CASCADE"
+      + ", price NUMERIC(5,2) NOT NULL"
       + ", PRIMARY KEY (rname, fname))",
       (err, data) => {
         if (err) return resolve(console.log("Error creating Sells table"));
