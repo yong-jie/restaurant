@@ -226,6 +226,7 @@ const buildSchemas = async () => {
   await new Promise((resolve, reject) => {
     pool.query(
       "CREATE TABLE Rates(raid INTEGER primary key"
+      + ", dateTime TIMESTAMP NOT NULL"
       + ", rname VARCHAR(40) NOT NULL"
       + ", aname VARCHAR(40) NOT NULL"      
       + ", username VARCHAR(40) NOT NULL references Diners(username) on delete CASCADE"
