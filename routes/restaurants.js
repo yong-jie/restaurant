@@ -7,6 +7,8 @@ const pool = new Pool(config.pgConfig);
 
 const countQuery = 'SELECT count(*) FROM RestaurantAreas';
 
+const cuisinesQuery = 'SELECT * FROM Cuisines'
+
 const orderNameAsc = ' ORDER BY rname ASC';
 const orderNameDesc = ' ORDER BY rname DESC';
 const orderScoreAsc = ' ORDER BY score ASC';
@@ -28,8 +30,11 @@ function render(req, res, next, sql_query_display, sql_query_order) {
 
 	pool.query(countQuery, (err, data) => {
 		total_restaurants = data.rows;
-		pool.query(sql_query_display, (err, data) => {
-			res.render('restaurants', { title: 'Participating Outlets', data: data.rows, total: total_restaurants });
+		pool.query(cuisinesQuery, (err, data) => {
+			cuisines = data.rows;
+			pool.query(sql_query_display, (err, data) => {
+				res.render('restaurants', { title: 'Participating Outlets', cuisines: cuisines, data: data.rows, total: total_restaurants });
+			})
 		})
 	})
 }

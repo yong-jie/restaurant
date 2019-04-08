@@ -22,10 +22,11 @@ router.get('/', function(req, res, next) {
     
     var outletsQuery = 'SELECT RE.rname as rname, RE.aname as aname, SUM(RE.amount) as total_amount,'
     + ' CAST(AVG(RE.amount) AS NUMERIC(5,2)) as avg_amount, COUNT(*) as reservations,'
-    + ' COALESCE(AVG(RA.score), 0) as avg_score'
-    + ' FROM Reserves RE natural left join Rates RA'
-    + ' WHERE username = $1'
-    + ' GROUP BY RE.rname, RE.aname';
+    + ' (SELECT COALESCE(AVG(score), 0) FROM Rates WHERE username = RE.username AND rname = RE.rname'
+    + ' AND aname = RE.aname) as avg_score'
+    + ' FROM Reserves RE'
+    + ' WHERE RE.username = $1'
+    + ' GROUP BY RE.username, RE.rname, RE.aname';
     
     pool.query(spendingsQuery, [diner_username], (err, data) => {
         spendings = data.rows;
