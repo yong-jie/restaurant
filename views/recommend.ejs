@@ -2,7 +2,7 @@
 <html>
   <head>
 		<!-- Page Title -->
-    <title>CS2102 Modifying Database</title>
+    <title>Recommend</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 		
 		<!-- CSS for Styling -->
@@ -13,44 +13,51 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-		<!-- ADDED JavaScript -->
-		<script src="javascripts/insertScript.js"></script>
   </head>
   <body>
-    <h1>CS2102: <%= title%></h1>
-		<form id="html_form" action="insert" role="form" method="post">
+    <h1>Recommendations</h1>
+		<form id="html_form" action="/recommend" role="form" method="post">
 			<div class="form-group">
-				<label for="food_1">1st Food</label>
-				<input type="text" class="form-control" id="food_1" name="food_1" aria-describedby="matricHelp" placeholder="Enter your food">
+				<label for="foodname">What do you feel like eating?</label>
+				<input type="text" class="form-control" id="foodname" name="foodname" placeholder="Try 'Western' or 'Burger'">
 			</div>
 			<div class="form-group">
-				<label for="food_2">2nd Food</label>
-				<input type="text" class="form-control" id="food_2" name="food_2" placeholder="Enter your food">
+				<label for="location">Where are you now?</label>
+				<input type="text" class="form-control" id="location" name="location" placeholder="Try 'Orchard Road'">
 			</div>
 			<div class="form-group">
-				<label for="food_3">3rd Food</label>
-				<input type="text" class="form-control" id="food_3" name="food_3" placeholder="Enter your food">
+				<label for="budget">What is your budget?</label>
+				<input type="text" class="form-control" id="budget" name="budget" placeholder="Try $10">
 			</div>
-			<div class="form-group">
-				<label for="area">Area</label>
-				<input type="text" class="form-control" id="area" name="area" placeholder="Enter your area">
-			</div>			
-			<div class="form-group">
-				<label for="cuisine">Cuisine</label>
-				<input type="text" class="form-control" id="cuisine" name="cuisine" placeholder="Enter your cuisine">
-			</div>	
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
-		
-		<script>
-			(function() {
-				window.addEventListener('load', function() {
-					var forms = [document.getElementById('html_form')];
-					var validation = Array.prototype.filter.call(forms, function(form) {
-						form.addEventListener('submit', check, false);
-					});
-				}, false);
-			})();
-		</script>
+	<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Restaurants</th>
+					<th scope="col">Cuisines</th>				
+					<th scope="col">Areas</th>
+					<th scope="col">Addresses</th>
+					<th scope="col">Average Scores</th>
+					<th scope="col">Average Prices</th>
+					<th scope="col">Opening Time</th>
+					<th scope="col">Closing Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for(var i=0; i<data.length; i++) { %>
+				<tr>
+					<td><%= data[i].rname%></td>
+					<td><%= data[i].cname%></td>
+					<td><%= data[i].aname%></td>
+					<td><%= data[i].address%></td>
+					<td><%= data[i].score%></td>
+					<td>$<%= data[i].price%></td>
+					<td><%= data[i].start%></td>
+					<td><%= data[i].end%></td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
   </body>
 </html>
