@@ -11,7 +11,7 @@ const orderNameAsc = ' ORDER BY S.rname ASC';
 const orderNameDesc = ' ORDER BY S.rname DESC';
 
 const defaultQuery = 'SELECT *'
-+ ' FROM Sells S natural join Food F';
++ ' FROM Sells S NATURAL JOIN Food F';
 
 const defaultOrder = orderNameAsc;
 

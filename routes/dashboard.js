@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
     + ' FROM Reserves RE'
     + ' WHERE RE.username = $1'
     + ' GROUP BY RE.username, RE.rname, RE.aname';
-    
+
     pool.query(spendingsQuery, [diner_username], (err, data) => {
         spendings = data.rows;
         pool.query(avgSpendingsQuery, [diner_username], (err, data) => {
