@@ -1,11 +1,35 @@
+-- Only able to like food that is in the menu
+CREATE OR REPLACE FUNCTION food_menu()
+	RETURNS TRIGGER AS
+	$$
+	DECLARE count NUMERIC;
+	BEGIN
+		SELECT COUNT (*) into count
+		FROM Sells 
+		WHERE NEW.fname = fname;
+		IF count = 0 THEN
+			RETURN NULL;
+		ELSE
+			RETURN NEW;
+		END IF;
+	END;
+	$$
+	LANGUAGE plpgsql;			
+
+CREATE TRIGGER menu_food
+BEFORE INSERT OR UPDATE
+ON Likes
+FOR EACH ROW
+EXECUTE PROCEDURE food_menu();
+
 -- Only able to sell food of the same cuisine that the restaurant serves
 CREATE OR REPLACE FUNCTION same_cuisine()
 	RETURNS TRIGGER AS
 	$$
 	DECLARE count NUMERIC;
 	BEGIN
-		SELCT COUNT (*) into count
-		FROM Food F NATURAL JOIN Restaurant R
+		SELECT COUNT (*) into count
+		FROM Food F NATURAL JOIN Restaurants R
 		WHERE NEW.fname = F.fname and NEW.rname = R.rname;
 		IF count = 0 THEN
 			RETURN NULL;
@@ -22,8 +46,7 @@ ON Sells
 FOR EACH ROW
 EXECUTE PROCEDURE same_cuisine();
 
--- Forces every owner to own exactly one restaurant
--- If owner wants to update to a different restaurant, it is not allowed as well	 
+-- No two owners are allowed to own the same restaurant
 CREATE OR REPLACE FUNCTION before_owned()
 	RETURNS TRIGGER AS
 	$$
