@@ -23,6 +23,7 @@ var menuRouter = require("./routes/menu");
 var dashboardRouter = require("./routes/dashboard");
 var likesRouter = require("./routes/likes");
 var owners_menuRouter = require("./routes/owners_menu");
+var owners_reservationsRouter = require("./routes/owners_reservations");
 
 var pgPool = new pg.Pool(config.pgConfig);
 var app = express();
@@ -64,6 +65,7 @@ app.use("/menu", menuRouter);
 app.use("/dashboard", dashboardRouter);
 app.use("/likes", likesRouter);
 app.use("/owners_menu", owners_menuRouter);
+app.use("/owners_reservations", owners_reservationsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

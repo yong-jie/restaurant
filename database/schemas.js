@@ -204,7 +204,7 @@ const buildSchemas = async () => {
       + ", username VARCHAR(40) NOT NULL references Diners(username) on delete CASCADE"
       + ", numPax INTEGER NOT NULL"
       + ", confirmed BOOLEAN NOT NULL"
-      + ", amount NUMERIC(5,2)"
+      + ", amount NUMERIC(5,2) NOT NULL"
       + ", dateTime TIMESTAMP NOT NULL"
       + ", FOREIGN KEY (rname, aname) references RestaurantAreas on delete CASCADE)",    
       (err, data) => {

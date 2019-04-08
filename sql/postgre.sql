@@ -156,7 +156,7 @@ CREATE OR REPLACE FUNCTION reserves_overlap()
 	BEGIN
 		SELECT COUNT (*) into count
 		FROM Reserves 
-		WHERE NEW.username = username and NEW.reid <> reid
+		WHERE NEW.username = username and NEW.reid <> reid and NEW.amount = 0.00
 		and ((NEW.dateTime >= (dateTime - INTERVAL '1 hour') and NEW.dateTime <= dateTime)
 		or (NEW.dateTime <= (dateTime + INTERVAL '1 hour') and NEW.dateTime >= dateTime));
 		IF count > 0 THEN
