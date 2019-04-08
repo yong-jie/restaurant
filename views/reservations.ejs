@@ -18,6 +18,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th scope="col">Reservation ID</th>
 					<th scope="col">Restaurant Name</th>
 					<th scope="col">Outlet</th>
 					<th scope="col">Username</th>
@@ -29,6 +30,7 @@
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr>
+					<td><%= data[i].reid%></td>
 					<td><%= data[i].rname%></td>
 					<td><%= data[i].aname%></td>
 					<td><%= data[i].username%></td>
