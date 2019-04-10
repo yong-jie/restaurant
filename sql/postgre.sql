@@ -149,6 +149,31 @@ ON Reserves
 FOR EACH ROW
 EXECUTE PROCEDURE reserves_overlap();
 
+-- Does not allow any reserve to be outside the restaurant's opening hours
+CREATE OR REPLACE FUNCTION reserves_opening_hours()
+	RETURNS TRIGGER AS
+	$$
+	DECLARE count NUMERIC;
+	BEGIN
+		SELECT COUNT (*) into count
+		FROM restaurantareas r1, reserves
+		WHERE NEW.username = username and NEW.reid <> reid and NEW.amount = 0.00 and new.RNAME = r1.rname and new.aname = r1.aname and new.address = r1.address
+		and ((NEW.dateTime::time >= r1.endtime) or (NEW.dateTime::time < r1.starttime));
+		IF count > 0 then
+			RETURN NULL;
+		else
+			RETURN NEW;
+		END IF;
+	END;
+	$$
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER reserves_opening_hours
+BEFORE INSERT OR UPDATE
+ON Reserves
+FOR EACH ROW
+EXECUTE PROCEDURE reserves_opening_hours();
+
 CREATE OR REPLACE FUNCTION not_diners() 
 	RETURNS TRIGGER AS
 	$$

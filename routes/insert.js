@@ -20,12 +20,12 @@ router.post('/', function(req, res, next) {
     var reid = 'SELECT COUNT(*) as c'
     + ' FROM Reserves';
 
-    var rname    = req.body.rname;      //can only add rname that already exists in the db
+    var rname    = req.body.rname;
     var aname    = req.body.aname;
     var address = req.body.address;
-    var username  = req.body.username;  //can only add username that already exist in the db
-    var numPax = req.body.numPax;       //integer
-    var confirmed = req.body.confirmed; //True or False
+    var username  = req.session.auth.username;
+    var numPax = req.body.numPax;
+    var confirmed = req.body.confirmed;
     var dateTime = req.body.dateTime;
     
     pool.query(reid, (err,data) => {

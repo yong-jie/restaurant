@@ -157,44 +157,44 @@ VALUES ('MacDonalds', 'Noodles', 8);
 
 -- Reserves
 INSERT INTO Reserves (reid, rname, aname, username, numPax, confirmed, amount, dateTime) 
-VALUES (101, 'MacDonalds', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
+VALUES (0, 'MacDonalds', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
 
 -- Reserves: should fail, does not exist in Restaurants
 INSERT INTO Reserves (reid, rname, aname, username, numPax, confirmed, amount, dateTime) 
-VALUES (102, 'abcd', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
+VALUES (1, 'abcd', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
 
 -- Reserves: should fail, does not exist in RestaurantAreas
 INSERT INTO Reserves (reid, rname, aname, username, numPax, confirmed, amount, dateTime) 
-VALUES (102, 'MacDonalds', 'Raffles Place', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
+VALUES (1, 'MacDonalds', 'Raffles Place', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
 
 -- Reserves: should fail, does not exist in Diners
 INSERT INTO Reserves (reid, rname, aname, username, numPax, confirmed, amount, dateTime) 
-VALUES (102, 'MacDonalds', 'Orchard', 'ShouTeckOwner', 10, false, 0.00, '2019-04-07 13:10:11');
+VALUES (1, 'MacDonalds', 'Orchard', 'ShouTeckOwner', 10, false, 0.00, '2019-04-07 13:10:11');
 
 -- Reserves: should fail, times too close, trigger
 INSERT INTO Reserves (reid, rname, aname, username, numPax, confirmed, amount, dateTime) 
-VALUES (102, 'KFC', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
+VALUES (1, 'KFC', 'Orchard', 'ShouTeckDiner', 10, false, 0.00, '2019-04-07 13:10:11');
 
 
 -- Rates 
 INSERT INTO Rates (raid, rname, aname, username, comment, score)
-VALUES (101, 'KFC', 'Orchard', 'ShouTeckDiner', '10/10', 10);
+VALUES (0, 'KFC', 'Orchard', 'ShouTeckDiner', '10/10', 10);
 
 -- Rates: should fail, does not exist in Restaurants
 INSERT INTO Rates (raid, rname, aname, username, comment, score)
-VALUES (102, 'abcd', 'Orchard', 'ShouTeckDiner', '5/10', 5);
+VALUES (1, 'abcd', 'Orchard', 'ShouTeckDiner', '5/10', 5);
 
 -- Rates: should fail, does not exist in RestaurantAreas
 INSERT INTO Rates (raid, rname, aname, username, comment, score)
-VALUES (102, 'MacDonalds', 'Raffles Place', 'ShouTeckDiner', '5/10', 5);
+VALUES (1, 'MacDonalds', 'Raffles Place', 'ShouTeckDiner', '5/10', 5);
 
 -- Rates: should fail, does not exist in Diners
 INSERT INTO Rates (raid, rname, aname, username, comment, score)
-VALUES (102, 'KFC', 'Orchard', 'ShouTeckOwner', '5/10', 5);
+VALUES (1, 'KFC', 'Orchard', 'ShouTeckOwner', '5/10', 5);
 
 -- Rates: should fail, score not in range
 INSERT INTO Rates (raid, rname, aname, username, comment, score)
-VALUES (102, 'MacDonalds', 'Orchard', 'ShouTeckDiner', '11/10', 11);
+VALUES (1, 'MacDonalds', 'Orchard', 'ShouTeckDiner', '11/10', 11);
 
 
 -- RestaurantPromos

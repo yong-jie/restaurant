@@ -7,7 +7,7 @@ const pool = new Pool(config.pgConfig);
 
 router.get('/', function(req, res, next) {
 
-    var diner_username = 'Sijie';
+    var diner_username = req.session.auth.username;
 
     var diners_reservation = 'SELECT reid,rname,aname,address,confirmed,numPax,dateTime as dt '
     + ' FROM reserves'
@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
-    var diner_username = 'Sijie';
+    var diner_username = req.session.auth.username;
 
     var sql_query1 = 'UPDATE RESERVES '
     + 'SET CONFIRMED = ';
