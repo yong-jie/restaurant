@@ -123,31 +123,6 @@ ON Rates
 FOR EACH ROW
 EXECUTE PROCEDURE rated_recently();
 
--- Does not allow rate to occur if haven't reserved at that outlet before
-CREATE OR REPLACE FUNCTION reserve_before()
-	RETURNS TRIGGER AS
-	$$
-	DECLARE count NUMERIC;
-	BEGIN
-		SELECT COUNT (*) into count
-		FROM Reserves 
-		WHERE NEW.username = username and confirmed = TRUE 
-		and NEW.rname = rname and NEW.aname = aname;
-		IF count = 0 THEN
-			RETURN NULL;
-		ELSE
-			RETURN NEW;
-		END IF;
-	END;
-	$$
-	LANGUAGE plpgsql;
-
-CREATE TRIGGER rate0
-BEFORE INSERT OR UPDATE
-ON Rates
-FOR EACH ROW
-EXECUTE PROCEDURE reserve_before();
-
 -- Does not allow any reserve to overlap with another reserve within an hour
 CREATE OR REPLACE FUNCTION reserves_overlap()
 	RETURNS TRIGGER AS

@@ -153,13 +153,13 @@ const buildSchemas = async () => {
     pool.query(
       "CREATE TABLE RestaurantAreas(rname VARCHAR(40) references Restaurants(rname) on delete CASCADE"
       + ", aname VARCHAR(40)"      
-      + ", address VARCHAR(40) NOT NULL"  
+      + ", address VARCHAR(40)"  
       + ", startTime TIME NOT NULL"
       + ", endTime TIME NOT NULL"   
-      + ", PRIMARY KEY (rname, aname)"
+      + ", PRIMARY KEY (rname, aname, address)"
       + ", check (endTime > startTime))",
       (err, data) => {
-        if (err) return resolve(console.log("Error creating RestaurantAreas table"));
+        if (err) return resolve(console.log("Error creating    table"));
         return resolve(console.log("Created RestaurantAreas table"));
       },
     );
@@ -201,12 +201,13 @@ const buildSchemas = async () => {
       "CREATE TABLE Reserves(reid INTEGER primary key"
       + ", rname VARCHAR(40) NOT NULL"
       + ", aname VARCHAR(40) NOT NULL"      
+      + ", address VARCHAR(40) NOT NULL"
       + ", username VARCHAR(40) NOT NULL references Diners(username) on delete CASCADE"
       + ", numPax INTEGER NOT NULL"
       + ", confirmed BOOLEAN NOT NULL"
       + ", amount NUMERIC(5,2) NOT NULL"
       + ", dateTime TIMESTAMP NOT NULL"
-      + ", FOREIGN KEY (rname, aname) references RestaurantAreas on delete CASCADE)",    
+      + ", FOREIGN KEY (rname, aname, address) references RestaurantAreas on delete CASCADE)",    
       (err, data) => {
         if (err) return resolve(console.log("Error creating Reserves table"));
         return resolve(console.log("Created Reserves table"));
@@ -227,12 +228,13 @@ const buildSchemas = async () => {
     pool.query(
       "CREATE TABLE Rates(raid INTEGER primary key"
       + ", dateTime TIMESTAMP NOT NULL"
-      + ", rname VARCHAR(40) NOT NULL"
-      + ", aname VARCHAR(40) NOT NULL"      
+      + ", rname VARCHAR(40) NOT NULL" 
+      + ", aname VARCHAR(40) NOT NULL"
+      + ", address VARCHAR(40) NOT NULL"      
       + ", username VARCHAR(40) NOT NULL references Diners(username) on delete CASCADE"
       + ", comment VARCHAR(40)"
       + ", score REAL NOT NULL"
-      + ", FOREIGN KEY (rname, aname) references RestaurantAreas on delete CASCADE"
+      + ", FOREIGN KEY (rname, aname, address) references RestaurantAreas on delete CASCADE"
       + ", check (score >= 0 and score <= 10))",       
       (err, data) => {
         if (err) return resolve(console.log("Error creating Rates table"));
