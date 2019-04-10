@@ -21,6 +21,7 @@
                     <th scope="col">Reservation ID</th>
                     <th scope="col">Restaurant Name</th>
                     <th scope="col">Outlet Name</th>
+                    <th scope="col">Address</th>
                     <th scope="col">Number of people</th>
                     <th scope="col">Confirmed</th>
                     <th scope="col">Date and Time</th>
@@ -32,6 +33,7 @@
                     <td><%= data[i].reid%></td>
                     <td><%= data[i].rname%></td>
                     <td><%= data[i].aname%></td>
+                    <td><%= data[i].address%></td>
                     <td><%= data[i].numpax%></td>
                     <td><%= data[i].confirmed%></td>
                     <td><%= data[i].dt%></td>
@@ -39,7 +41,8 @@
 				<% } %>
 			</tbody>
         </table>
-        <h1><%= title%> Update Form</h1>
+        <br> </br>
+        <h1><%- title%> Update Form</h1>
         <form id="html_form" action="diners_reservations" role="form" method="post">
                 <div class="form-group">
                     <label for="reid">Reservation ID</label>
