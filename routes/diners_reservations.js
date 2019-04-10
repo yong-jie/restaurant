@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
     var diner_username = 'Sijie';
 
-    var diners_reservation = 'SELECT reid,rname,aname,confirmed,numPax,dateTime as dt '
+    var diners_reservation = 'SELECT reid,rname,aname,address,confirmed,numPax,dateTime as dt '
     + ' FROM reserves'
     + ' WHERE username = $1'
     + ' ORDER BY reid ASC;'
@@ -33,7 +33,6 @@ router.post('/', function(req, res, next) {
 	
 	var update_query = sql_query1 + confirmed + sql_query3 + sql_query4;
 	pool.query(update_query, [diner_username, reid], (err, data) => {
-        console.error(update_query);
 		res.redirect('/diners_reservations')
 	});
 });

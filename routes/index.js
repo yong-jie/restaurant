@@ -15,8 +15,9 @@ router.get("/", function(req, res, next) {
   res.render("index", { username: req.session.auth.username, type: req.session.auth.type });
 });
 
-router.get("/signup", (req, res, next) => {
-  return res.render("signup");
+router.get("/signup", async (req, res, next) => {
+  const cuisines = await pool.query(`SELECT * from cuisines`);
+  return res.render("signup", { cuisines: cuisines.rows });
 })
 
 router.get("/login", (req, res, next) => {
@@ -63,6 +64,18 @@ router.post("/signup", async (req, res, next) => {
   if (!(req.body && req.body.username && req.body.password && req.body.type)) {
     return res.send("Missing fields");
   }
+  if (req.body.type === "Owner") {
+    if (!(req.body.restaurant_name && req.body.cuisine)) {
+      return res.send("Missing fields");
+    }
+
+    try {
+      // Create restaurant
+      await pool.query(`INSERT into restaurants values ('${req.body.restaurant_name}', '${req.body.cuisine}')`);
+    } catch (err) {
+      return res.send("Failed to create restaurant");
+    }
+  }
 
   // TODO: Check for collisions
   try {
@@ -76,8 +89,9 @@ router.post("/signup", async (req, res, next) => {
 
     // Then create specific ISA relationship row.
     const type = req.body.type === "Diner" ? "Diners" : req.body.type === "Admin" ? "Admins" : "Owners";
+    const owner_query = req.body.type==="Owner" ? `, '${req.body.restaurant_name}'`:'';
     await new Promise((resolve, reject) => {
-      pool.query(`INSERT INTO ${type} VALUES ('${req.body.username}')`, (err, data) => {
+      pool.query(`INSERT INTO ${type} VALUES ('${req.body.username}'${owner_query})`, (err, data) => {
         if (err) return reject(err);
         return resolve();
       });
