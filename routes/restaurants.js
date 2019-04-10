@@ -24,6 +24,9 @@ const defaultOrder = orderNameAsc;
 var prevQuery = defaultQuery;
 
 function render(req, res, next, sql_query_display, sql_query_order) {
+
+	var type = req.session.auth.type;
+
 	prevQuery = sql_query_display;
 
 	sql_query_display += sql_query_order;
@@ -33,7 +36,7 @@ function render(req, res, next, sql_query_display, sql_query_order) {
 		pool.query(cuisinesQuery, (err, data) => {
 			cuisines = data.rows;
 			pool.query(sql_query_display, (err, data) => {
-				res.render('restaurants', { title: 'Participating Outlets', cuisines: cuisines, data: data.rows, total: total_restaurants });
+				res.render('restaurants', { title: 'Participating Outlets', cuisines: cuisines, data: data.rows, total: total_restaurants, type: type });
 			})
 		})
 	})

@@ -5,9 +5,11 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
+var diner_username;
+
 router.get('/', function(req, res, next) {
 
-    var diner_username = 'Sijie';
+    diner_username = req.session.auth.username;
 
     var diners_reservation = 'SELECT reid,rname,aname,address,confirmed,numPax,dateTime as dt '
     + ' FROM reserves'
@@ -20,8 +22,6 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/', function(req, res, next) {
-
-    var diner_username = 'Sijie';
 
     var sql_query1 = 'UPDATE RESERVES '
     + 'SET CONFIRMED = ';

@@ -5,26 +5,35 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
+var owner_rname;
+var owner_cname;
+
 router.get('/', function(req, res, next) {
 
-    var owner_rname = 'KFC';
+    var owner_username = req.session.auth.username;
+
+    var rnameQuery = 'SELECT rname FROM Owners WHERE username = $1';
+    var cnameQuery = 'SELECT cname FROM Restaurants WHERE rname = $1';
 
     var sellsQuery = 'SELECT fname, price'
     + ' FROM Sells'
     + ' WHERE rname = $1';
 
-	pool.query(sellsQuery, [owner_rname], (err, data) => {
-		res.render('owners_menu', { title: 'Menu', data: data.rows });
-	});
+    pool.query(rnameQuery, [owner_username], (err, data) => {
+        owner_rname = data.rows[0].rname;
+        pool.query(cnameQuery, [owner_rname], (err, data) => {
+            owner_cname = data.rows[0].cname;
+            pool.query(sellsQuery, [owner_rname], (err, data) => {
+                res.render('owners_menu', { title: 'Menu', data: data.rows });
+            });
+        })
+    })
 });
 
 router.post('/', function(req, res, next) {
 
     var food_query = 'INSERT INTO Food VALUES';
     var sells_query = 'INSERT INTO Sells VALUES';
-
-    var owner_rname = 'KFC';
-    var owner_cname = 'Western';
 	
 	var fname = req.body.fname;
 	var price = req.body.price;

@@ -1,0 +1,55 @@
+<style type = text/css>
+    /* hides checkbox  */
+    #menu-toggle {
+    position: absolute;
+    opacity: 0;
+    display: none;
+    }
+  
+    /* reveal panel on toggle by shifting right by the width of the container */
+    #menu-toggle:checked ~ #slide-out-menu {
+    transform: translateX(230px); /* width of menu */
+    }
+  
+    /* customize slide out menu */
+    #slide-out-menu {
+    background-color: #ddd;
+    
+    position: fixed;
+    left: -230px;  /* width of menu */
+    width: 230px;
+    height: 100vh; /* 100% of viewport height */
+  
+    transition: .5s transform;
+    z-index: 99;
+    }
+  
+    /* customize the unordered list */
+    .sidebar {
+    list-style: none;   /* hide bullet points */
+    padding-left: 15px; /* adjust indentation */
+    }
+  
+    .sidebar li {
+    padding-bottom: 15px;
+    }
+  </style>
+    </head>
+   <body>
+     <!-- Controls For Slide Out Menu -->
+     <!-- MUST be placed before menu container -->
+     <input type="checkbox" id="menu-toggle" />
+     <label for="menu-toggle"><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" style="width:30px;" /></label>
+  
+     <!-- Slide Out Menu -->
+     <div id="slide-out-menu">
+       <ul class="sidebar">
+         <div class="col-sm-12">
+         <li><a class="btn btn-secondary btn-sm" href="/management" role="button">Management</a></li>
+         <li><a class="btn btn-secondary btn-sm" href="/owners_menu" role="button">Menu</a></li>
+         <li><a class="btn btn-secondary btn-sm" href="/owners_reservations" role="button">Payment</a></li>
+         </div>
+       </ul>
+     </div>
+  
+     <!-- Rest of page -->

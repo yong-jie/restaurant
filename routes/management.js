@@ -6,7 +6,8 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 router.get('/', function(req, res, next) {
-  var owner_username = 'ShouTeck';
+  
+  var owner_username = req.session.auth.username;
 
   var reservationsQuery = 'SELECT COALESCE(COUNT(R.rname), 0) as reservations'
   + ' FROM Owners O inner join Reserves R on O.rname = R.rname'

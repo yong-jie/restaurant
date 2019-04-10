@@ -18,6 +18,9 @@ const defaultOrder = orderNameAsc;
 var prevQuery = defaultQuery;
 
 function render(req, res, next, sql_query_display, sql_query_order) {
+
+	var type = req.session.auth.type;
+
 	prevQuery = sql_query_display;
 
 	sql_query_display += sql_query_order;
@@ -25,7 +28,7 @@ function render(req, res, next, sql_query_display, sql_query_order) {
 	pool.query(countQuery, (err, data) => {
 		total_food = data.rows;
 		pool.query(sql_query_display, (err, data) => {
-			res.render('menu', { title: 'Menu', data: data.rows, total: total_food });
+			res.render('menu', { title: 'Menu', data: data.rows, total: total_food, type: type });
 		})
 	});
 }
