@@ -20,13 +20,13 @@ router.get('/', function(req, res, next) {
   + ' FROM Owners O inner join Rates R on O.rname = R.rname'
   + ' WHERE O.username = $1';
 
-  var outletsQuery = 'SELECT R.rname as rname, R.aname as aname,'   
+  var outletsQuery = 'SELECT R.rname as rname, R.aname as aname, R.address as address,'   
   + ' COALESCE(SUM(R.amount), 0) as earnings,'
-  + ' (SELECT COALESCE(AVG(SCORE), 0) FROM Rates where R.aname = aname and R.rname = rname) as avgscore,'
+  + ' (SELECT COALESCE(AVG(SCORE), 0) FROM Rates where R.aname = aname and R.rname = rname and R.address = address) as avgscore,'
   + ' COUNT(*) as reservations'    
   + ' FROM Owners O inner join Reserves R on O.rname = R.rname'
   + ' WHERE O.username = $1'  
-  + ' GROUP BY R.rname, R.aname';
+  + ' GROUP BY R.rname, R.aname, R.address';
 
   pool.query(earningsQuery, [owner_username], (err, data) => {
     earnings = data.rows;

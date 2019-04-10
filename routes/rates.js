@@ -19,15 +19,25 @@ router.post('/', function(req, res, next) {
     
 	var rname    = req.body.rname;
 	var aname	 = req.body.aname;
+	var address	 = req.body.address;
 	var username  = req.body.username;
 	var comment = req.body.comment;
 	var score = req.body.score;
+	var raid = 'SELECT COUNT(*) as c'
+	+ ' FROM Rates';
 	
+
     // Construct Specific SQL Query
-    var insert_query = sql_query + "('" + rname + "','" + aname + "','" + username + "','" + comment + "','" + score + "')";
-	
-	pool.query(insert_query, (err, data) => {
-		res.redirect('/ratings')
+	pool.query(raid, (err, data) => {
+		numRates = data.rows[0].c;
+		var dateTime = 'SELECT LOCALTIMESTAMP as t;';
+		pool.query(dateTime, (err, data) => {
+			var currentTime = data.rows[0].t.toISOString().replace('Z', '').replace('T', ' ');
+			var insert_query = sql_query + "('" + numRates + "','" + currentTime + "','" + rname + "','" + aname + "','" + address + "','" + username + "','" + comment + "','" + score + "')";
+			pool.query(insert_query, (err, data) => {
+				res.redirect('/ratings')
+			});
+		});
 	});
 });
 
