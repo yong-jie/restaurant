@@ -16,6 +16,12 @@
     </head>
 
     <body>
+			<% if (type === "Owners") { %>
+				<%- include owner_sidebar.ejs %>
+			<% } %>
+			<% if (type === "Diners") { %>
+				<%- include diner_sidebar.ejs %>
+			<% } %>
 			<%- include navbar.ejs %>
 			<form class="form-inline my-2 my-lg-0" action="/menu/search">
 			<input class="form-control mr-sm-2" placeholder="Search restaurant..." type="text" aria-label="Search" name ="rname">
