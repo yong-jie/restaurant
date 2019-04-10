@@ -6,9 +6,13 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 function constructQuery(foodname, location, budget) {
-	foodname = '\'\%' + foodname + '\%\'';
-	location = '\'\%' + location + '\%\'';
+	foodname = "\'\%" + foodname + "\%\'";
+	location = "\'\%" + location + "\%\'";
+
 	budget = parseFloat(budget);
+	if (isNaN(budget)) {
+		budget = 10000.0;
+	}
 
 	var query = "";
 

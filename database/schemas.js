@@ -232,7 +232,7 @@ const buildSchemas = async () => {
       + ", aname VARCHAR(40) NOT NULL"
       + ", address VARCHAR(40) NOT NULL"      
       + ", username VARCHAR(40) NOT NULL references Diners(username) on delete CASCADE"
-      + ", comment VARCHAR(40)"
+      + ", comment VARCHAR(1000)"
       + ", score REAL NOT NULL"
       + ", FOREIGN KEY (rname, aname, address) references RestaurantAreas on delete CASCADE"
       + ", check (score >= 0 and score <= 10))",       
