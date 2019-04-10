@@ -15,8 +15,9 @@ router.get("/", function(req, res, next) {
   res.render("index", { username: req.session.auth.username, type: req.session.auth.type });
 });
 
-router.get("/signup", (req, res, next) => {
-  return res.render("signup");
+router.get("/signup", async (req, res, next) => {
+  const cuisines = await pool.query(`SELECT * from cuisines`);
+  return res.render("signup", { cuisines: cuisines.rows });
 })
 
 router.get("/login", (req, res, next) => {

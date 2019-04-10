@@ -3,6 +3,21 @@
   <head>
     <title>Create account</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type=text/css>
+      #owner_fields {
+      display: none;
+      }
+    </style>
+    <script>
+      function toggleExtraFields() {
+      var fields = document.getElementById("owner_fields");
+      if (document.getElementById("owner_type").checked) {
+      fields.style.display = "block";
+      } else {
+      fields.style.display="none";
+      }
+      }
+    </script>
   </head>
   <body>
     <form action="/signup" method="post">
@@ -11,9 +26,17 @@
       Password:<br/>
       <input type="password" name="password"/><br/>
       Type:<br/>
-      <input type="radio" name="type" value="Diner" checked> Diner<br/>
-      <input type="radio" name="type" value="Owner"> Owner<br/>
-      <input type="radio" name="type" value="Admin"> Admin<br/>
+      <input type="radio" name="type" value="Diner" onclick="toggleExtraFields()" checked> Diner<br/>
+      <input type="radio" name="type" value="Owner" onclick="toggleExtraFields()" id="owner_type"> Owner<br/>
+      <input type="radio" name="type" value="Admin" onclick="toggleExtraFields()"> Admin<br/>
+      <div id="owner_fields">
+        Restaurant Name:<br/>
+        <input type="text" name="restaurant_name"> <br/>
+        Cuisine:<br/>
+        <% for (var i = 0; i < cuisines.length; i++) { %>
+           <input type="radio" name="cuisine" value="<%= cuisines[i].cname %>"> <%= cuisines[i].cname %><br/>
+        <% } %>
+      </div></br>
       <input type="submit" value="Submit"/>
     </form>
   </body>
