@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
     var owner_rname = 'KFC';
 
-    var reservationsQuery = 'SELECT reid, rname, aname, numPax, amount, dateTime'
+    var reservationsQuery = 'SELECT reid, rname, aname, address, numPax, amount, dateTime'
     + ' FROM Reserves'
     + ' WHERE rname = $1 and amount = 0.00 and confirmed = true;'
 
