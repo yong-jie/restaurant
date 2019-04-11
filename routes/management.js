@@ -21,13 +21,13 @@ router.get('/', function(req, res, next) {
   + ' FROM Owners O inner join Rates R on O.rname = R.rname'
   + ' WHERE O.username = $1';
 
-  var outletsQuery = 'SELECT R.rname as rname, R.aname as aname, R.address as address,'   
-  + ' COALESCE(SUM(R.amount), 0) as earnings,'
-  + ' (SELECT COALESCE(AVG(SCORE), 0) FROM Rates where R.aname = aname and R.rname = rname and R.address = address) as avgscore,'
-  + ' COUNT(*) as reservations'    
-  + ' FROM Owners O inner join Reserves R on O.rname = R.rname'
+  var outletsQuery = 'SELECT RA.rname as rname, RA.aname as aname, RA.address as address,'   
+  + ' (SELECT CAST(COALESCE(SUM(amount), 0.0) AS NUMERIC(5, 2)) FROM Reserves where RA.aname = aname and RA.address = address) as earnings,'
+  + ' (SELECT COALESCE(AVG(SCORE), 0.0) FROM Rates where RA.aname = aname and RA.rname = rname and RA.address = address) as avgscore,'
+  + ' (SELECT COUNT(*) FROM Reserves where RA.aname = aname and RA.address = address) as reservations'    
+  + ' FROM Owners O right join RestaurantAreas RA on O.rname = RA.rname'
   + ' WHERE O.username = $1'  
-  + ' GROUP BY R.rname, R.aname, R.address';
+  + ' GROUP BY RA.rname, RA.aname, RA.address';
 
   var mostImprovedQuery = 'with OldScore as ('
   + ' select RA.rname, RA.aname, RA.address, coalesce(avg(R.score), 5) as old'
