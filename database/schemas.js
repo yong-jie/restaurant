@@ -290,6 +290,367 @@ const buildSchemas = async () => {
     );
   });
 
-};
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION same_cuisine()"
+      + " RETURNS TRIGGER AS $$"
+      + " DECLARE count NUMERIC;"
+      + " BEGIN"
+      + "   SELECT COUNT (*) into count"
+      + "   FROM Food F NATURAL JOIN Restaurants R"
+      + "   WHERE NEW.fname = F.fname and NEW.rname = R.rname;"
+      + "     IF count = 0 THEN RETURN NULL;"
+      + "     ELSE RETURN NEW;"
+      + "   END IF;"
+      + " END; $$ LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating same_cuisine function"));
+        return resolve(console.log("Created same_cuisine function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER same_cuisine"
+      + "   BEFORE INSERT OR UPDATE ON Sells"
+      + "   FOR EACH ROW"
+      + "   EXECUTE PROCEDURE same_cuisine();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating same_cuisine trigger"));
+        return resolve(console.log("Created same_cuisine trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION owned_before()"
+      + "  RETURNS TRIGGER AS"
+      + "  $$"
+      + "  DECLARE count NUMERIC;"
+      + "  BEGIN"
+      + "    SELECT COUNT (*) into count"
+      + "    FROM Owners"
+      + "    WHERE NEW.rname = rname;"
+      + "    IF count > 0 THEN RETURN NULL;"
+      + "    ELSE RETURN NEW;"
+      + "    END IF;"
+      + "  END;"
+      + "  $$"
+      + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating owned_before function"));
+        return resolve(console.log("Created owned_before function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER owned_before"
+      + "  BEFORE INSERT OR UPDATE ON Owners"
+      + "  FOR EACH ROW"
+      + "  EXECUTE PROCEDURE owned_before();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating owned_before trigger"));
+        return resolve(console.log("Created owned_before trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION reserve_recently()"
+      + "  RETURNS TRIGGER AS"
+      + "  $$"
+      + "  DECLARE count NUMERIC;"
+      + "  BEGIN"
+      + "    SELECT COUNT (*) into count"
+      + "    FROM Reserves"
+      + "    WHERE NEW.username = username and confirmed = TRUE"
+      + "    and NEW.rname = rname and NEW.aname = aname"
+      + "    and dateTime >= (NEW.dateTime - INTERVAL '1 month');"
+      + "    IF count > 0 THEN RETURN NEW;"
+      + "    ELSE RETURN NULL;"
+      + "    END IF;"
+      + "  END;"
+      + "  $$"
+      + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserve_recently function"));
+        return resolve(console.log("Created reserve_recently function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER reserve_recently"
+      + "  BEFORE INSERT OR UPDATE ON Rates"
+      + "  FOR EACH ROW"
+      + "  EXECUTE PROCEDURE reserve_recently();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserve_recently trigger"));
+        return resolve(console.log("Created reserve_recently trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION rated_recently()"
+      + "  RETURNS TRIGGER AS"
+      + "  $$"
+      + "  DECLARE count NUMERIC;"
+      + "  BEGIN"
+      + "    SELECT COUNT (*) into count"
+      + "    FROM Rates"
+      + "    WHERE NEW.username = username"
+      + "    and NEW.rname = rname and NEW.aname = aname"
+      + "    and dateTime >= (NEW.dateTime - INTERVAL '1 week')"
+      + "    and NEW.raid <> raid;"
+      + "    IF count > 0 THEN RETURN NULL;"
+      + "    ELSE RETURN NEW;"
+      + "    END IF;"
+      + "  END;"
+      + "  $$"
+      + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating rated_recently function"));
+        return resolve(console.log("Created rated_recently function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER rated_recently"
+      + "  BEFORE INSERT OR UPDATE ON Rates"
+      + "  FOR EACH ROW"
+      + "  EXECUTE PROCEDURE rated_recently();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating rated_recently trigger"));
+        return resolve(console.log("Created rated_recently trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION reserves_overlap()"
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  DECLARE count NUMERIC;"
+       + "  BEGIN"
+       + "    SELECT COUNT (*) into count"
+       + "    FROM Reserves "
+       + "    WHERE NEW.username = username and NEW.reid <> reid and NEW.amount = 0.00"
+       + "    and ((NEW.dateTime >= (dateTime - INTERVAL '1 hour') and NEW.dateTime <= dateTime)"
+       + "    or (NEW.dateTime <= (dateTime + INTERVAL '1 hour') and NEW.dateTime >= dateTime));"
+       + "    IF count > 0 THEN RETURN NULL;"
+       + "    ELSE RETURN NEW;"
+       + "    END IF;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_overlap function"));
+        return resolve(console.log("Created reserves_overlap function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER reserves_overlap"
+       + "  BEFORE INSERT OR UPDATE"
+       + "  ON Reserves"
+       + "  FOR EACH ROW"
+       + "  EXECUTE PROCEDURE reserves_overlap();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_overlap trigger"));
+        return resolve(console.log("Created reserves_overlap trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION reserves_opening_hours()"
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  DECLARE count NUMERIC;"
+       + "  BEGIN"
+       + "    SELECT COUNT (*) into count"
+       + "    FROM restaurantareas r1"
+       + "    WHERE NEW.amount = 0.00 and new.RNAME = r1.rname and new.aname = r1.aname and new.address = r1.address"
+       + "    and ((NEW.dateTime::time >= r1.endtime) or (NEW.dateTime::time < r1.starttime));"
+       + "    IF count > 0 then RETURN NULL;"
+       + "    else RETURN NEW;"
+       + "    END IF;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_opening_hours function"));
+        return resolve(console.log("Created reserves_opening_hours function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER reserves_opening_hours"
+       + " BEFORE INSERT OR UPDATE"
+       + " ON Reserves FOR EACH ROW"
+       + " EXECUTE PROCEDURE reserves_opening_hours();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_opening_hours trigger"));
+        return resolve(console.log("Created reserves_opening_hours trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION reserves_before_localtime()"
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  BEGIN"
+       + "    IF NEW.dateTime <= LOCALTIMESTAMP THEN RETURN NULL;"
+       + "    ELSE RETURN NEW;"
+       + "    END IF;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_before_localtime function"));
+        return resolve(console.log("Created reserves_before_localtime function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER reserves_before_localtime"
+       + " BEFORE INSERT OR UPDATE ON Reserves"
+       + " FOR EACH ROW"
+       + " EXECUTE PROCEDURE reserves_before_localtime();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating reserves_before_localtime trigger"));
+        return resolve(console.log("Created reserves_before_localtime trigger"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION not_diners() "
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  DECLARE count NUMERIC;"
+       + "  BEGIN"
+       + "    SELECT COUNT (*) INTO count"
+       + "    FROM Diners"
+       + "    WHERE NEW.username = username;"
+       + "    IF count > 0 THEN RETURN NULL;"
+       + "    ELSE RETURN NEW;"
+       + "    END IF;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating non_diners function"));
+        return resolve(console.log("Created non_diners function"));
+      },
+    );
+  });  
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER non_diners"
+       + " BEFORE INSERT OR UPDATE ON Owners"
+       + " FOR EACH ROW"
+       + " EXECUTE PROCEDURE not_diners();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating non_diners trigger"));
+        return resolve(console.log("Created non_diners trigger"));
+      },
+    );
+  });
+
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION not_owners() "
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  DECLARE count NUMERIC;"
+       + "  BEGIN"
+       + "    SELECT COUNT (*) INTO count"
+       + "    FROM Owners"
+       + "    WHERE NEW.username = username;"
+       + "    IF count > 0 THEN RETURN NULL;"
+       + "    ELSE RETURN NEW;"
+       + "    END IF;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating non_owners function"));
+        return resolve(console.log("Created non_owners function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER non_owners"
+       + " BEFORE INSERT OR UPDATE ON Diners"
+       + " FOR EACH ROW"
+       + " EXECUTE PROCEDURE not_owners();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating non_owners trigger"));
+        return resolve(console.log("Created non_owners trigger"));
+      },
+    );
+  });
+
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE OR REPLACE FUNCTION delete_expired_promos()"
+       + "  RETURNS TRIGGER AS"
+       + "  $$"
+       + "  DECLARE "
+       + "    today TIMESTAMP;"
+       + "  BEGIN"
+       + "    SELECT localtimestamp INTO today;"
+       + "    DELETE FROM RestaurantPromos RP WHERE RP.endDate < today;"
+       + "    RETURN NEW;"
+       + "  END;"
+       + "  $$"
+       + "  LANGUAGE plpgsql;",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating delete_expired_promos function"));
+        return resolve(console.log("Created delete_expired_promos function"));
+      },
+    );
+  });
+
+  await new Promise((resolve, reject) => {
+    pool.query(
+      "CREATE TRIGGER delete_expired_promos"
+       + " BEFORE INSERT OR UPDATE ON RestaurantPromos"
+       + " FOR EACH ROW"
+       + " EXECUTE PROCEDURE delete_expired_promos();",
+      (err, data) => {
+        if (err) return resolve(console.log("Error creating delete_expired_promos trigger"));
+        return resolve(console.log("Created delete_expired_promos trigger"));
+      },
+    );
+  });
+}
 
 buildSchemas();
