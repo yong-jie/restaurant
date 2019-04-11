@@ -74,4 +74,22 @@ router.get('/', function(req, res, next) {
   })
 })
 
+router.get('/add', function(req, res, next) {
+  aname = req.query.aname;
+  address = req.query.address;
+  open = req.query.open;
+  close = req.query.close;
+
+  var rname = '';
+  var insertStatement = 'INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime) VALUES ($1, $2, $3, $4, $5);'
+
+  pool.query('SELECT rname FROM Owners WHERE username = $1', [req.session.auth.username], (err, data) => {
+    rname = data.rows[0].rname;
+
+    pool.query(insertStatement, [rname, aname, address, open, close], (err, data) => {
+      res.redirect('/management');
+    })
+  })
+})
+
 module.exports = router;

@@ -91,5 +91,13 @@
 				<% } %> 	
 			</tbody>
 		</table>
+		<h2>Add Outlets</h2>
+		<form class="form-inline my-2 my-lg-0" action="/management/add">
+			<input class="form-control mr-sm-2" placeholder="Area of new outlet" type="text" aria-label="Search" name ="aname">
+			<input class="form-control mr-sm-2" placeholder="Address of new outlet" type="text" aria-label="Search" name ="address">
+			<input class="form-control mr-sm-2" placeholder="Opening hours in hh:mm format" type="text" aria-label="Search" name ="open">
+			<input class="form-control mr-sm-2" placeholder="Closing hours in hh:mm format" type="text" aria-label="Search" name ="close">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add</button>
+		</form>
   </body>
 </html>
