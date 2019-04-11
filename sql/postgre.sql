@@ -174,6 +174,26 @@ ON Reserves
 FOR EACH ROW
 EXECUTE PROCEDURE reserves_opening_hours();
 
+-- Does not allow reserve to be before current local timestamp
+CREATE OR REPLACE FUNCTION reserves_before_localtime()
+	RETURNS TRIGGER AS
+	$$
+	BEGIN
+		IF NEW.dateTime <= LOCALTIMESTAMP THEN
+			RETURN NULL;
+		ELSE
+			RETURN NEW;
+		END IF;
+	END;
+	$$
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER reserves_before_localtime
+BEFORE INSERT OR UPDATE
+ON Reserves
+FOR EACH ROW
+EXECUTE PROCEDURE reserves_before_localtime();
+
 CREATE OR REPLACE FUNCTION not_diners() 
 	RETURNS TRIGGER AS
 	$$
