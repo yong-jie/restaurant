@@ -239,3 +239,24 @@ BEFORE INSERT OR UPDATE
 ON Diners
 FOR EACH ROW
 EXECUTE PROCEDURE not_owners();
+
+CREATE OR REPLACE FUNCTION delete_expired_promos()
+	RETURNS TRIGGER AS
+	$$
+	DECLARE 
+		today TIMESTAMP;
+	BEGIN
+		SELECT localtimestamp INTO today;
+		DELETE FROM RestaurantPromos RP WHERE RP.endDate < today;
+
+		RETURN NEW;
+	END;
+	$$
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_expired_promos
+BEFORE INSERT OR UPDATE
+ON RestaurantPromos
+FOR EACH ROW
+EXECUTE PROCEDURE delete_expired_promos();
+
