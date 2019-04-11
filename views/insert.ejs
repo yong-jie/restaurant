@@ -2,7 +2,7 @@
 <html>
   <head>
 		<!-- Page Title -->
-    <title>Restaurants</title>
+    <title>Reserve</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 		
 		<!-- CSS for Styling -->
@@ -19,15 +19,15 @@
   <body>
 		<%- include diner_sidebar.ejs %>  
 		<%- include navbar.ejs %>  
-    <h1>Booking a <%= title%></h1>
+    <h1>Reserve an <%= title%></h1>
 		<form id="html_form" action="insert" role="form" method="post">
 			<div class="form-group">
 				<label for="rname">Restaurant Name</label>
 				<input type="VARCHAR(40)" class="form-control" id="rname" name="rname" placeholder="Enter the restaurant name">
 			</div>
 			<div class="form-group">
-				<label for="aname">Outlet Name</label>
-				<input type="VARCHAR(40)" class="form-control" id="aname" name="aname" placeholder="Enter the outlet area">
+				<label for="aname">Area</label>
+				<input type="VARCHAR(40)" class="form-control" id="aname" name="aname" placeholder="Enter the area">
 			</div>
 			<div class="form-group">
 				<label for="address">Address</label>
