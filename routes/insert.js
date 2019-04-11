@@ -34,7 +34,7 @@ router.post('/', function(req, res, next) {
         var insert_query = sql_query + "('" + numRes + "','" + rname + "','" + aname + "','" + address + "','" + username + "','" + numPax + "','" + confirmed + "','"
         + '0.00' + "','" + dateTime  + "')";
         pool.query(insert_query, (err, data) => {
-            res.redirect('/reservations')
+            res.redirect('/dashboard')
         });
     })
 

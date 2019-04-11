@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
     
     var reservationsQuery = 'SELECT reid, rname, aname, address, numPax, amount, dateTime'
     + ' FROM Reserves'
-    + ' WHERE rname = $1 and amount = 0.00 and confirmed = true;'
+    + ' WHERE rname = $1 and amount = 0.00 and confirmed = true and dateTime <= LOCALTIMESTAMP;'
 
 	pool.query(rnameQuery, [owner_username], (err, data) => {
 		owner_rname = data.rows[0].rname;

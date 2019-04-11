@@ -17,6 +17,8 @@
 		<!-- <script src="javascripts/ratingScript.js"></script> -->
   </head>
   <body>
+		<%- include diner_sidebar.ejs %>  
+		<%- include navbar.ejs %>  
     <h1>Rating a <%= title%></h1>
 		<form id="html_form" action="rates" role="form" method="post">
 			<div class="form-group">
@@ -24,16 +26,16 @@
         <input type="VARCHAR(40)" class="form-control" id="username" name="username" placeholder="Enter your username">
 			</div>
 			<div class="form-group">
-				<label for="rname">Restaurant Name</label>
-				<input type="VARCHAR(40)" class="form-control" id="rname" name="rname" placeholder="Enter the restaurant name">
+				<label for="rname">Outlet Name</label>
+				<input type="VARCHAR(40)" class="form-control" id="rname" name="rname" placeholder="Enter the outlet name">
 			</div>
 			<div class="form-group">
-				<label for="aname">Outlet Name</label>
+				<label for="aname">Area</label>
 				<input type="VARCHAR(40)" class="form-control" id="aname" name="aname" placeholder="Enter the outlet area">
 			</div>
 			<div class="form-group">
 				<label for="address">Address</label>
-				<input type="VARCHAR(40)" class="form-control" id="address" name="address" placeholder="Enter the outlet Address">
+				<input type="VARCHAR(40)" class="form-control" id="address" name="address" placeholder="Enter the outlet address">
 			</div>
 			<div class="form-group">
 				<label for="comment">Comment</label>

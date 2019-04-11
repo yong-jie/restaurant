@@ -10,7 +10,7 @@ var sql_query = 'INSERT INTO rates VALUES';
 
 // GET
 router.get('/', function(req, res, next) {
-	res.render('rates', { title: 'Restaurant' });
+	res.render('rates', { title: 'Outlet' });
 });
 
 // POST
@@ -35,7 +35,7 @@ router.post('/', function(req, res, next) {
 			var currentTime = data.rows[0].t.toISOString().replace('Z', '').replace('T', ' ');
 			var insert_query = sql_query + "('" + numRates + "','" + currentTime + "','" + rname + "','" + aname + "','" + address + "','" + username + "','" + comment + "','" + score + "')";
 			pool.query(insert_query, (err, data) => {
-				res.redirect('/ratings')
+				res.redirect('/dashboard')
 			});
 		});
 	});
