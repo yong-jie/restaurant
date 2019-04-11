@@ -15,7 +15,7 @@ const orderScoreAsc = ' ORDER BY score ASC';
 const orderScoreDesc = ' ORDER BY score DESC';
 
 const defaultQuery = 'SELECT RA.rname as rname, R.cname as cname, RA.aname as aname, RA.address as address,'
-+ ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname and aname = RA.aname), 0) as score,'
++ ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname and aname = RA.aname), 5) as score,'
 + ' COALESCE((SELECT CAST(AVG(S1.price) AS NUMERIC(5,2)) FROM Sells S1 where S1.rname = RA.rname), 0) as price,'
 + ' RA.startTime as start, RA.endTime as end'
 + ' FROM RestaurantAreas RA natural join Restaurants R';
@@ -48,7 +48,9 @@ router.get('/search', function(req, res, next) {
 	if (req.query.rname == '') {
 		newQuery = prevQuery;
 	} else {
-		var restaurant = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
+		var restaurant = req.query.rname.toLowerCase();
+		restaurant = restaurant.replace('\'', '').replace('\"', '');
+		restaurant = '\'\%' + restaurant + '\%\'';
 		newQuery = defaultQuery + ' WHERE lower(RA.rname) LIKE' + restaurant;
 	}
 
