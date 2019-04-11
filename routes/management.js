@@ -74,4 +74,50 @@ router.get('/', function(req, res, next) {
   })
 })
 
+router.get('/add', function(req, res, next) {
+  aname = req.query.aname;
+  address = req.query.address;
+  open = req.query.open;
+  close = req.query.close;
+
+  var rname = '';
+  var insertStatement = 'INSERT INTO RestaurantAreas (rname, aname, address, startTime, endTime) VALUES ($1, $2, $3, $4, $5);'
+
+  pool.query('SELECT rname FROM Owners WHERE username = $1', [req.session.auth.username], (err, data) => {
+    rname = data.rows[0].rname;
+
+    pool.query(insertStatement, [rname, aname, address, open, close], (err, data) => {
+      res.redirect('/management');
+    })
+  })
+})
+
+router.get('/promote', function(req, res, next) {
+  discount = parseInt(req.query.discount);
+  endDate = req.query.enddate;
+
+  if (discount <= 0 || discount >= 100) {
+    res.redirect('/management');
+  } else {
+    var rname = '';
+    var insertStatement = 'INSERT INTO RestaurantPromos (rname, discount, startDate, endDate) VALUES ($1, $2, $3, $4);'
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    var startDate = yyyy + '-' + mm + '-' + dd;
+    console.log(startDate);
+
+    pool.query('SELECT rname FROM Owners WHERE username = $1', [req.session.auth.username], (err, data) => {
+      rname = data.rows[0].rname;
+
+      pool.query(insertStatement, [rname, discount, startDate, endDate], (err, data) => {
+        res.redirect('/management');
+      })
+    })
+  }
+})
+
 module.exports = router;
