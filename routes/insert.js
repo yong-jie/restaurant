@@ -10,7 +10,7 @@ var sql_query = 'INSERT INTO reserves VALUES';
 
 // GET
 router.get('/', function(req, res, next) {
-    res.render('insert', { title: 'Restaurant' });
+    res.render('insert', { title: 'Outlet' });
 });
 
 // POST

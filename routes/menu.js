@@ -10,8 +10,8 @@ const countQuery = 'SELECT count(distinct fname) FROM Sells';
 const orderNameAsc = ' ORDER BY S.rname ASC';
 const orderNameDesc = ' ORDER BY S.rname DESC';
 
-const defaultQuery = 'SELECT *'
-+ ' FROM Sells S NATURAL JOIN Food F';
+const defaultQuery = 'SELECT S.rname, S.fname, F.cname, CASE WHEN (RP.discount IS NULL) THEN S.price ELSE CAST(S.price * RP.discount/100 AS NUMERIC(5,2)) END as price'
++ ' FROM (Sells S NATURAL JOIN Food F) NATURAL LEFT JOIN RestaurantPromos RP';
 
 const defaultOrder = orderNameAsc;
 

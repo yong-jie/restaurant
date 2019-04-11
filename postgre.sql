@@ -200,9 +200,9 @@ CREATE OR REPLACE FUNCTION reserves_opening_hours()
 	DECLARE count NUMERIC;
 	BEGIN
 		SELECT COUNT (*) into count
-		FROM restaurantareas r1
-		WHERE NEW.amount = 0.00 and new.RNAME = r1.rname and new.aname = r1.aname and new.address = r1.address
-		and ((NEW.dateTime::time >= r1.endtime) or (NEW.dateTime::time < r1.starttime));
+		FROM RestaurantAreas 
+		WHERE NEW.amount = 0.00 and NEW.rname = rname and NEW.aname = aname and NEW.address = address
+		and ((NEW.dateTime::TIME >= endTime) or (NEW.dateTime::TIME < startTime));
 		IF count > 0 then RETURN NULL;
 		else RETURN NEW;
 		END IF;
