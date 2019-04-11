@@ -29,6 +29,34 @@ router.get('/', function(req, res, next) {
   + ' WHERE O.username = $1'  
   + ' GROUP BY R.rname, R.aname, R.address';
 
+  var mostImprovedQuery = 'with OldScore as ('
+  + ' select RA.rname, RA.aname, RA.address, coalesce(avg(R.score), 5) as old'
+  + ' from Rates R right join RestaurantAreas RA on R.rname = RA.rname and R.aname = RA.aname and R.address = RA.address'
+  + ' where R.dateTime <= (CAST($1 as TIMESTAMP) - CAST(\'1 week\' as INTERVAL))'
+  + ' group by (RA.rname, RA.aname, RA.address)'
+  + ' ),'
+  + ' NewScore as ('
+  + '   select RA.rname, RA.aname, RA.address, coalesce(avg(R.score), 5) as new'
+  + '   from Rates R right join RestaurantAreas RA on R.rname = RA.rname and R.aname = RA.aname and R.address = RA.address'
+  + '   group by (RA.rname, RA.aname, RA.address)'
+  + ' ),'
+  + ' MaxImprove as ('
+  + '   select max(new - coalesce(old, 5)) as maxDiff'
+  + '   from OldScore O right join NewScore N on O.rname = N.rname and O.aname = N.aname and O.address = N.address'
+  + '   where N.rname = (select OW.rname from Owners OW where username = $2)'
+  + ' )'
+  + ' select N.aname, N.address, coalesce(old, 5) as old, new, new - coalesce(old, 5) as diff'
+  + ' from OldScore O right join NewScore N on O.rname = N.rname and O.aname = N.aname and O.address = N.address'
+  + ' where N.rname = (select OW.rname from Owners OW where username = $2) and new - coalesce(old, 5) > 0 and new - coalesce(old, 5) = (select * from MaxImprove)'
+  + ' order by diff asc;'
+
+  var dateTime = 'SELECT LOCALTIMESTAMP as t;';
+  var currentTime = '';
+
+  pool.query(dateTime, (err, data) => {
+    currentTime = data.rows[0].t.toISOString().replace('Z', '').replace('T', ' ');
+  })
+
   pool.query(earningsQuery, [owner_username], (err, data) => {
     earnings = data.rows;
     pool.query(avgscoreQuery, [owner_username], (err, data) => {
@@ -36,7 +64,10 @@ router.get('/', function(req, res, next) {
       pool.query(reservationsQuery, [owner_username], (err, data) => {
         reservations = data.rows;
         pool.query(outletsQuery, [owner_username], (err, data) => {
-          res.render('management', { title: 'Overview', earnings: earnings, avgscore: avgscore, reservations: reservations, data: data.rows });
+          dat = data.rows;
+          pool.query(mostImprovedQuery, [currentTime, owner_username], (err, data) => {
+            res.render('management', { title: 'Overview', earnings: earnings, avgscore: avgscore, reservations: reservations, data: dat, mostImproved: data.rows });
+          })
         })
       })
     })

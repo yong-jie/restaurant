@@ -2,7 +2,7 @@
 <html>
  <head>
 		<!-- Page Title -->
-    <title>CS2102 Template</title>
+    <title>Owner's Dashboard</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
 		<!-- CSS for Styling -->
@@ -43,6 +43,29 @@
 				</div>
 			</div>
 		</div>
+		<h2>Most Improved Restaurant(s)</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope ="col">Areas</th>
+					<th scope ="col">Addresses</th>
+					<th scope ="col">Old Score</th>
+					<th scope ="col">New Score</th>
+					<th scope ="col">Improved By</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for (var i = 0; i < mostImproved.length; i++) { %>
+				<tr>
+					<td><%= mostImproved[i].aname%></td>
+					<td><%= mostImproved[i].address%></td>
+					<td><%= mostImproved[i].old%></td>
+					<td><%= mostImproved[i].new%></td>
+					<td><%= mostImproved[i].diff%></td>
+				</tr>
+				<% } %> 	
+			</tbody>
+		</table>
 		<h2>Outlets</h2>
 		<table class="table">
 			<thead>
