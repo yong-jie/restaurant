@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   + ' FROM Owners O inner join Reserves R on O.rname = R.rname'
   + ' WHERE O.username = $1';
 
-  var avgscoreQuery = 'SELECT COALESCE(AVG(R.score), 5) as avgscore'
+  var avgscoreQuery = 'SELECT CAST(COALESCE(AVG(R.score), 5) AS NUMERIC(5,2)) as avgscore'
   + ' FROM Owners O inner join Rates R on O.rname = R.rname'
   + ' WHERE O.username = $1';
 
