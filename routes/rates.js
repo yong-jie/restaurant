@@ -20,7 +20,7 @@ router.post('/', function(req, res, next) {
 	var rname    = req.body.rname;
 	var aname	 = req.body.aname;
 	var address	 = req.body.address;
-	var username  = req.body.username;
+	var username  = req.session.auth.username;
 	var comment = req.body.comment;
 	var score = req.body.score;
 	var raid = 'SELECT COUNT(*) as c'

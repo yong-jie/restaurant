@@ -7,8 +7,8 @@ const pool = new Pool(config.pgConfig);
 
 const countQuery = 'SELECT count(distinct fname) FROM Sells';
 
-const orderNameAsc = ' ORDER BY S.rname ASC';
-const orderNameDesc = ' ORDER BY S.rname DESC';
+const orderNameAsc = ' ORDER BY S.fname ASC';
+const orderNameDesc = ' ORDER BY S.fname DESC';
 
 const defaultQuery = 'SELECT S.rname, S.fname, F.cname,'
 + ' CASE WHEN (RP.discount IS NOT NULL AND RP.startDate <= CURRENT_DATE AND CURRENT_DATE <= RP.endDate)'
@@ -41,8 +41,8 @@ router.get('/search', function(req, res, next) {
 	if (req.query.rname == '') {
 		newQuery = prevQuery;
 	} else {
-		var restaurant = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
-		newQuery = defaultQuery + ' WHERE lower(S.rname) LIKE' + restaurant;
+		var food = ' \'\%' + req.query.rname.toLowerCase() + '\%\'';
+		newQuery = defaultQuery + ' WHERE lower(S.fname) LIKE' + food;
 	}
 
 	var newOrder = '';
