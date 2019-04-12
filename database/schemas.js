@@ -42,25 +42,6 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Admins
-  await new Promise((resolve, reject) => {
-    pool.query("DROP TABLE Admins CASCADE", (err, data) => {
-      if (err) return resolve(console.log("Admins table does not exist."));
-      return resolve(console.log("Deleted Admins table"));
-    });
-  });
-
-  // Create Admins
-  await new Promise((resolve, reject) => {
-    pool.query(
-      "CREATE TABLE Admins(username VARCHAR(40) primary key references Users(username) on delete CASCADE)",
-      (err, data) => {
-        if (err) return resolve(console.log(err)); //"Error creating Admins table"));
-        return resolve(console.log("Created Admins table"));
-      },
-    );
-  });
-
   // Delete Cuisines
   await new Promise((resolve, reject) => {
     pool.query("DROP TABLE Cuisines CASCADE", (err, data) => {

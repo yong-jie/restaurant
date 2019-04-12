@@ -48,10 +48,6 @@ router.post("/login", async (req, res, next) => {
     if (rows.length !== 0) req.session.auth.type = 'Diners';
   }
   {
-    let { rows } = await pool.query(`SELECT * FROM admins WHERE username = '${req.body.username}'`);
-    if (rows.length !== 0) req.session.auth.type = 'Admins';
-  }
-  {
     let { rows } = await pool.query(`SELECT * FROM owners WHERE username = '${req.body.username}'`);
     if (rows.length !== 0) req.session.auth.type = 'Owners';
   }
@@ -88,8 +84,8 @@ router.post("/signup", async (req, res, next) => {
     });
 
     // Then create specific ISA relationship row.
-    const type = req.body.type === "Diner" ? "Diners" : req.body.type === "Admin" ? "Admins" : "Owners";
-    const owner_query = req.body.type==="Owner" ? `, '${req.body.restaurant_name}'`:'';
+    const type = req.body.type === "Diner" ? "Diners" : "Owners";
+    const owner_query = req.body.type=== "Owner" ? `, '${req.body.restaurant_name}'`:'';
     await new Promise((resolve, reject) => {
       pool.query(`INSERT INTO ${type} VALUES ('${req.body.username}'${owner_query})`, (err, data) => {
         if (err) return reject(err);

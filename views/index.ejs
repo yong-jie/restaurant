@@ -9,10 +9,10 @@
     <p>Your group is: <%= type %></p>
     <br/>
     <br/>
-    <% if (type === "Owners" || type === "Admins") { %>
+    <% if (type === "Owners") { %>
     <a href="/management"><button>Management</button></a>
     <% } %>
-    <% if (type === "Diners" || type === "Admins") { %>
+    <% if (type === "Diners") { %>
     <a href="/dashboard"><button>Dashboard</button></a>
     <% } %>
     <a href="/logout"><button>Log out</button></a>
