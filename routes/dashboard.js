@@ -6,7 +6,7 @@ const config = require("../config.js");
 const pool = new Pool(config.pgConfig);
 
 router.get('/', function(req, res, next) {
-    var diner_username = 'Sijie';
+    var diner_username = req.session.auth.username;
 
     var spendingsQuery = 'SELECT COALESCE(SUM(amount), 0) as spendings'
     + ' FROM Reserves'
