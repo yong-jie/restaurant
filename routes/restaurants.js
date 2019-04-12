@@ -18,7 +18,7 @@ const defaultQuery = 'SELECT RA.rname as rname, R.cname as cname, RA.aname as an
 + ' COALESCE((SELECT AVG(score) FROM rates where rname = RA.rname and aname = RA.aname), 5) as score,'
 + ' COALESCE((SELECT CAST(AVG(S1.price) AS NUMERIC(5,2)) FROM Sells S1 where S1.rname = RA.rname), 0) as price,'
 + ' RA.startTime as start, RA.endTime as end'
-+ ' FROM RestaurantAreas RA natural join Restaurants R';
++ ' FROM (RestaurantAreas RA natural join Restaurants R) NATURAL LEFT JOIN RestaurantPromos RP';
 const defaultOrder = orderNameAsc;
 
 var prevQuery = defaultQuery;

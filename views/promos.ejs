@@ -34,10 +34,18 @@
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr>
-						<td><%= data[i].rname%></td>
-						<td><%= data[i].start%></td>
-						<td><%= data[i].end%></td>
-						<td><%= data[i].discount%>%</td>
+						<% if (data[i].ongoing === 1) { %>
+							<td class="table-danger"><%= data[i].rname%></td>
+							<td class="table-danger"><%= data[i].startdate%></td>
+							<td class="table-danger"><%= data[i].enddate%></td>
+							<td class="table-danger"><%= data[i].discount%>%</td>
+						<% } %>
+						<% if (data[i].ongoing === 0) { %>
+							<td><%= data[i].rname%></td>
+							<td><%= data[i].startdate%></td>
+							<td><%= data[i].enddate%></td>
+							<td><%= data[i].discount%>%</td>
+						<% } %>
 				</tr>
 				<% } %>
 			</tbody>
