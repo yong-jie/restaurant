@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
 
   var outletsQuery = 'SELECT RA.rname as rname, RA.aname as aname, RA.address as address,'   
   + ' (SELECT CAST(COALESCE(SUM(amount), 0.0) AS NUMERIC(5, 2)) FROM Reserves where RA.aname = aname and RA.address = address) as earnings,'
-  + ' (SELECT COALESCE(AVG(SCORE), 0.0) FROM Rates where RA.aname = aname and RA.rname = rname and RA.address = address) as avgscore,'
+  + ' (SELECT COALESCE(AVG(SCORE), 5.0) FROM Rates where RA.aname = aname and RA.rname = rname and RA.address = address) as avgscore,'
   + ' (SELECT COUNT(*) FROM Reserves where RA.aname = aname and RA.address = address) as reservations'    
   + ' FROM Owners O right join RestaurantAreas RA on O.rname = RA.rname'
   + ' WHERE O.username = $1'  
