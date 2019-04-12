@@ -248,29 +248,6 @@ const buildSchemas = async () => {
     );
   });
 
-  // Delete Likes
-  await new Promise((resolve, reject) => {
-    pool.query("DROP TABLE Likes CASCADE", (err, data) => {
-      if (err) return resolve(console.log("Likes table does not exist."));
-      return resolve(console.log("Deleted Likes table"));
-    });
-  });
-
-  // Create Likes
-  await new Promise((resolve, reject) => {
-    pool.query(
-      "CREATE TABLE Likes(fname VARCHAR(40) references Food(fname) on delete CASCADE"
-      + ", username VARCHAR(40) references Diners(username) on delete CASCADE"
-      + ", score REAL NOT NULL"
-      + ", PRIMARY KEY (fname, username)"
-      + ", check (score >= 0 and score <= 10))",
-      (err, data) => {
-        if (err) return resolve(console.log("Error creating Likes table"));
-        return resolve(console.log("Created Likes table"));
-      },
-    );
-  });
-
   await new Promise((resolve, reject) => {
     pool.query(
       "CREATE OR REPLACE FUNCTION same_cuisine()"
